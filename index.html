@@ -141,7 +141,7 @@ body.results-mode .results{display:block;}
 .sort button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink);}
 .card.flash{animation:cardflash 1.2s ease-out;} @keyframes cardflash{0%{box-shadow:0 0 0 3px var(--accent);} 100%{box-shadow:0 0 0 0 transparent;}}
 @media (prefers-reduced-motion: reduce){ .card.flash{animation:none;} }
-.list{overflow-anchor:none;}
+html, body{overflow-anchor:none;}
 .ranked{display:flex; gap:10px; align-items:flex-start;}
 .ranked .rk{font-family:"Fraunces",Georgia,serif; font-size:22px; font-weight:650; width:20px; flex:none; padding-top:12px; color:var(--muted); text-align:center;}
 .ranked .card{flex:1; min-width:0;}
@@ -828,7 +828,7 @@ clrBtn.addEventListener('click', function(){ qEl.value=''; query=''; shown=PAGE;
 moreEl.addEventListener('click', function(){
   const prev = shown; shown += PAGE; render();
   const first = listEl.children[prev];
-  if(first){ const top = first.getBoundingClientRect().top + window.scrollY - (document.body.classList.contains('results-mode') && window.innerWidth > 480 ? 200 : 12); window.scrollTo({top: top, behavior: 'smooth'}); first.classList.add('flash'); setTimeout(function(){ first.classList.remove('flash'); }, 1200); }
+  if(first){ requestAnimationFrame(function(){ const top = first.getBoundingClientRect().top + window.scrollY - (document.body.classList.contains('results-mode') && window.innerWidth > 480 ? 200 : 12); window.scrollTo(0, top); first.classList.add('flash'); setTimeout(function(){ first.classList.remove('flash'); }, 1200); }); }
 });
 document.querySelectorAll('a.brand').forEach(function(a){ a.addEventListener('click', function(ev){ ev.preventDefault(); goHome(); }); });
 [["hongdae station","hongdae station"],["ramen near gangnam","ramen near gangnam"],["itaewon","itaewon"],["gukbap","gukbap"]].forEach(function(x){ const b=document.createElement('button'); b.textContent=x[0]; b.addEventListener('click', function(){ qEl.value=x[1]; query=x[1]; shown=PAGE; goResults(); render(); }); $('examples').appendChild(b); });
