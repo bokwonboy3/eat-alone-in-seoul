@@ -4,7 +4,18 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="color-scheme" content="light dark">
-<meta name="description" content="Solo-friendly restaurants across Seoul with the exact Korean names Naver Map understands. Copy the name, paste it into Naver Map, eat.">
+<meta name="description" content="1,374 solo-friendly restaurants across Seoul with the exact Korean names Naver Map understands. Copy the name, paste it into Naver Map, eat.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Eat Alone in Seoul — solo-friendly restaurants with the Korean names Naver Map understands">
+<meta property="og:description" content="1,374 places across 42 neighborhoods, each checked against Naver visitors’ “good for eating alone” votes. Copy the Korean name, paste it into Naver Map, eat. Free.">
+<meta property="og:url" content="https://bokwonboy3.github.io/eat-alone-in-seoul/">
+<meta property="og:image" content="https://bokwonboy3.github.io/eat-alone-in-seoul/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eat Alone in Seoul">
+<meta name="twitter:description" content="1,374 solo-friendly restaurants with the exact Korean names Naver Map understands. Free.">
+<meta name="twitter:image" content="https://bokwonboy3.github.io/eat-alone-in-seoul/og.png">
+<link rel="canonical" href="https://bokwonboy3.github.io/eat-alone-in-seoul/">
 <title>Eat Alone in Seoul</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
@@ -279,6 +290,7 @@ body.page-mode .results, body.page-mode .hero{display:none;}
       <a href="#/how">How it works</a>
       <a href="#/phrases">3 Korean phrases</a>
       <a href="#/why">Why this exists</a>
+      <a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Request%3A%20%5Barea%20or%20place%5D&body=Which%20area%20or%20place%20should%20we%20add%3F%20(Any%20other%20city%20you%27d%20want%3F)%0A%0A" target="_blank" rel="noopener">Request an area ↗</a>
     </div>
   </section>
 
@@ -301,10 +313,10 @@ body.page-mode .results, body.page-mode .hero{display:none;}
     <div class="list" id="list"></div>
     <button class="more" id="more" hidden>Show more</button>
     <footer>
-      <nav><a href="#/how">How it works</a><a href="#/phrases">Korean phrases</a><a href="#/why">Why this exists</a></nav>
+      <nav><a href="#/how">How it works</a><a href="#/phrases">Korean phrases</a><a href="#/why">Why this exists</a><a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Request%3A%20%5Barea%20or%20place%5D&body=Which%20area%20or%20place%20should%20we%20add%3F%20(Any%20other%20city%20you%27d%20want%3F)%0A%0A" target="_blank" rel="noopener">Request an area ↗</a><a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Wrong%20info%3A%20%5Bplace%20name%5D&body=What%20was%20wrong%20(name%20didn%27t%20find%20it%2C%20closed%2C%20hours%2C%20etc.)%3F%0A%0A" target="_blank" rel="noopener">Report wrong info ↗</a></nav>
       <p id="coverage"></p>
       <p class="cta">Missing your neighborhood? Found a name that doesn't match Google? <b>Comment on the Reddit post where you found this</b> — areas get added by request.</p>
-      <p class="fine">Solo-friendly votes = Naver visitors who voted “good for eating alone” (restaurants); for cafés, a combined score of “eating alone / focusing / time alone” votes with half-weight for “comfortable seats / calm / cozy”. “Koreans say” = their other top votes, translated. Hours, busy times and stations from Kakao Map and Google. Collected Sep 2026. Not affiliated with Naver, Kakao or Google.</p>
+      <p class="fine">Solo-friendly votes = Naver visitors who voted “good for eating alone” (restaurants); for cafés, a combined score of “eating alone / focusing / time alone” votes with half-weight for “comfortable seats / calm / cozy”. “Koreans say” = their other top votes, translated. Hours, busy times and stations from Kakao Map and Google. Data collected Sep 19–20, 2026; closures re-checked Oct 7, 2026. Not affiliated with Naver, Kakao or Google.</p>
     </footer>
   </section>
 
@@ -331,6 +343,7 @@ body.page-mode .results, body.page-mode .hero{display:none;}
     <p><b>🚫 Closed Mon</b> — days with no listed opening hours. Korean restaurants often close one weekday; check the sign or Naver if it matters.</p>
     <p><b>📊 Busy times</b> — Kakao Map’s hourly visitor counts for today’s weekday, scaled 0–9. A quiet hour is the easiest time to get a seat alone; the tall bars are when you may wait.</p>
     <p><b>Sort</b> — “Most solo” ranks by the share of a place’s votes that are for eating alone (the truest solo signal); “Most votes” by raw count (popularity); “Rating” by the average of Naver, Google and Kakao stars; “Nearest” appears after you tap 📍 Near me.</p>
+    <p><b>Want another area or city? Found a wrong name?</b> — <a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Request%3A%20%5Barea%20or%20place%5D&body=Which%20area%20or%20place%20should%20we%20add%3F%20(Any%20other%20city%20you%27d%20want%3F)%0A%0A" target="_blank" rel="noopener">Request an area</a> · <a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Wrong%20info%3A%20%5Bplace%20name%5D&body=What%20was%20wrong%20(name%20didn%27t%20find%20it%2C%20closed%2C%20hours%2C%20etc.)%3F%0A%0A" target="_blank" rel="noopener">Report wrong info</a>. Both open a short form on GitHub (no account needed to read; a free one to post). Requests decide what we build next.</p>
     <p><b>Menu &amp; prices</b> — the place’s own listed dishes on Naver, with our English rendering of each name (a translation aid, not the official menu) and a price range. Prices in ₩ (KRW); ₩10,000 ≈ US$7.</p>
     <p><b>Reviews ↗</b> — opens the place in the <b>Naver Map app</b>. With the app (or your phone) set to English, visitor reviews are translated automatically. Install Naver Map first — it’s the app you’ll navigate with anyway.</p>
     <p>The Korean name is always exact — it comes straight from Naver, and every one was tested to return the right restaurant. The English name is our best match to what Google shows; if you spot one that differs, tell us and we’ll fix it.</p>
