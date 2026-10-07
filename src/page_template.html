@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="1,374 solo-friendly restaurants across Seoul with the exact Korean names Naver Map understands. Copy the name, paste it into Naver Map, eat.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Eat Alone in Seoul — solo-friendly restaurants with the Korean names Naver Map understands">
+<meta property="og:description" content="1,374 places across 42 neighborhoods, each checked against Naver visitors’ “good for eating alone” votes. Copy the Korean name, paste it into Naver Map, eat. Free.">
+<meta property="og:url" content="https://bokwonboy3.github.io/eat-alone-in-seoul/">
+<meta property="og:image" content="https://bokwonboy3.github.io/eat-alone-in-seoul/og.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Eat Alone in Seoul">
+<meta name="twitter:description" content="1,374 solo-friendly restaurants with the exact Korean names Naver Map understands. Free.">
+<meta name="twitter:image" content="https://bokwonboy3.github.io/eat-alone-in-seoul/og.png">
+<link rel="canonical" href="https://bokwonboy3.github.io/eat-alone-in-seoul/">
+<title>Eat Alone in Seoul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+<style>
+:root{
+  --bg:#F7F8F4; --card:#FFFFFF; --ink:#17201A; --muted:#5E6B62;
+  --line:#E2E6DF; --accent:#047857; --accent-press:#065F46; --accent-ink:#FFFFFF; --fav-bg:#FEF3C7; --fav-ink:#92400E; --fav-line:#FDE68A; --warn-bg:#FEF2F2; --warn-ink:#991B1B;
+  --badge-bg:#EAF6EE; --badge-ink:#1E7A48; --chip-bg:#EDF0EA; --toast-bg:#17201A; --toast-ink:#F2F6F1;
+  --step-bg:#EEF3EC; --scrim:rgba(16,22,19,.45);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#101613; --card:#18201B; --ink:#ECF2ED; --muted:#93A198;
+    --line:#263029; --accent:#34D399; --accent-press:#2BBF87; --accent-ink:#0B140E; --fav-bg:#3B2F0B; --fav-ink:#FDE68A; --fav-line:#5B4A12; --warn-bg:#3A1616; --warn-ink:#FCA5A5;
+    --badge-bg:#1C2B22; --badge-ink:#7FD9A6; --chip-bg:#1E2822; --toast-bg:#ECF2ED; --toast-ink:#101613;
+    --step-bg:#151D18; --scrim:rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#101613; --card:#18201B; --ink:#ECF2ED; --muted:#93A198;
+  --line:#263029; --accent:#34D399; --accent-press:#2BBF87; --accent-ink:#0B140E; --fav-bg:#3B2F0B; --fav-ink:#FDE68A; --fav-line:#5B4A12; --warn-bg:#3A1616; --warn-ink:#FCA5A5;
+  --badge-bg:#1C2B22; --badge-ink:#7FD9A6; --chip-bg:#1E2822; --toast-bg:#ECF2ED; --toast-ink:#101613;
+  --step-bg:#151D18; --scrim:rgba(0,0,0,.6);
+}
+*{box-sizing:border-box;}
+html,body{height:100%;}
+body{background:var(--bg); color:var(--ink); margin:0; font-family:"IBM Plex Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif; font-size:16px; line-height:1.55;}
+button, input{font-family:inherit; touch-action:manipulation;}
+button{cursor:pointer;}
+.copy, .lnk, .tile, .sug, .ex button, .near, .pick, .tg button, .diet button, .ac button{transition:background-color .18s ease, border-color .18s ease, color .18s ease, transform .12s ease;}
+.copy:active, .lnk:active, .sug:active, .ex button:active, .near:active, .pick:active{transform:scale(.97);}
+.kc small, .card .meta, .pr, .hrs, .count, .tile small, .rk{font-variant-numeric:tabular-nums;}
+.sheet{overscroll-behavior:contain;}
+@media (hover:hover){ .lnk:hover{border-color:var(--accent); color:var(--accent);} .copy:hover{background:var(--accent-press);} .sug:hover, .ex button:hover{border-color:var(--accent);} }
+a{color:inherit;}
+.wrap{max-width:640px; margin:0 auto; padding-inline:16px; padding-block:0 60px; min-height:100%; display:flex; flex-direction:column;}
+.brand{font-family:"Fraunces",Georgia,serif; font-weight:650; text-decoration:none; color:var(--ink); line-height:1.1;}
+
+/* ---------- 홈(랜딩): 검색만 ---------- */
+body.home .results, body.home .page{display:none;}
+.hero{display:none; position:relative; overflow:hidden; isolation:isolate; flex:1; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding-block:7vh 4vh; gap:14px;}
+body.home .hero{display:flex;}
+.hero > *{position:relative; z-index:1;}
+.hero::before{content:""; position:absolute; left:-10%; right:-10%; top:-12%; height:520px; z-index:0; pointer-events:none;
+  background:radial-gradient(42% 55% at 22% 18%, rgba(3,168,90,.13), transparent 70%), radial-gradient(38% 50% at 80% 8%, rgba(255,170,60,.14), transparent 70%), radial-gradient(30% 40% at 55% 60%, rgba(3,168,90,.06), transparent 70%);}
+.banner{width:100%; max-width:640px; margin-top:22px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:14px 16px; text-align:left; display:grid; grid-template-columns:1fr 1fr; gap:10px 14px; text-decoration:none; color:inherit;}
+.banner .t{grid-column:1/-1; font-size:13px; color:var(--muted); display:flex; flex-direction:column; gap:2px;}
+.banner .t b{color:var(--ink); font-weight:600;}
+.banner .t span{white-space:normal;}
+.pill{display:flex; align-items:center; gap:8px; border:1px solid var(--line); border-radius:12px; padding:9px 12px; font-size:14px; background:var(--bg);}
+.pill .m{font-size:15px; flex:none;} .pill .q{font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;} .pill small{color:var(--muted); margin-left:auto; white-space:nowrap; font-size:12px;}
+.pill.no{border-style:dashed;} .pill.no .q{color:var(--muted); text-decoration:line-through; text-decoration-color:rgba(200,60,60,.5);}
+.pill.ok{border-color:#bfe3cc; background:var(--badge-bg);} .pill.ok small{color:var(--badge-ink);}
+@media (max-width:480px){ .banner{grid-template-columns:1fr;} }
+.hero h1 .brk.on{display:block; height:0; overflow:hidden;}
+.hero h1 .nb{white-space:nowrap;}
+.rot{display:inline-block; position:relative; vertical-align:top; overflow:hidden; white-space:nowrap; padding:.06em 0 .18em; margin:-.06em 0 -.18em; text-align:left; color:var(--accent); transition:width .38s cubic-bezier(.2,.7,.2,1);}
+.rot .w{display:inline-block; will-change:transform;}
+.rot .w.out{position:absolute; left:0; top:.06em; animation:rotOut .42s cubic-bezier(.4,0,.6,1) forwards;}
+.rot .w.in{animation:rotIn .46s cubic-bezier(.2,.7,.2,1) both;}
+.rot .m{position:absolute; visibility:hidden; white-space:nowrap; left:0; top:0;}
+@keyframes rotOut{to{transform:translateY(-120%); opacity:0;}}
+@keyframes rotIn{from{transform:translateY(120%); opacity:0;} to{transform:translateY(0); opacity:1;}}
+@media (prefers-reduced-motion: reduce){ .rot{transition:none;} .rot .w.out, .rot .w.in{animation:none;} .rot .w.out{display:none;} }
+.hero h1{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:clamp(34px,9vw,52px); line-height:1.05; margin:0; text-wrap:balance;}
+.hero p{color:var(--muted); margin:0; max-width:34ch; font-size:16px;}
+.hero p b{color:var(--ink);}
+.hero .box{width:100%; max-width:560px; margin-top:10px; z-index:8;}
+.hero .near{border:1px dashed var(--line); background:var(--card); color:var(--ink); border-radius:999px; padding:0 18px; min-height:44px; font-size:15px; cursor:pointer;}
+.hero .links{display:flex; gap:18px; margin-top:26px; font-size:13.5px; color:var(--muted); flex-wrap:wrap; justify-content:center;}
+.hero .links a{color:var(--muted); text-decoration:none; border-bottom:1px solid var(--line); padding-bottom:1px; min-height:32px; display:inline-flex; align-items:center;}
+.hero .ex{display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:4px;}
+.hero .ex button{border:1px solid var(--line); background:var(--card); color:var(--muted); border-radius:999px; padding:0 12px; min-height:36px; font-size:13px; cursor:pointer;}
+
+/* ---------- 검색창 (홈·결과 공용) ---------- */
+.searchrow{position:relative;}
+.searchrow input{width:100%; border:1px solid var(--line); border-radius:14px; background:var(--card); color:var(--ink); padding:13px 44px 13px 16px; font-size:17px; min-height:52px; box-shadow:0 1px 2px rgba(0,0,0,.04);}
+body.results-mode .searchrow input{border-radius:12px; font-size:16px; min-height:46px; padding:11px 40px 11px 14px;}
+.searchrow input::placeholder{color:var(--muted);}
+.searchrow input::-webkit-search-cancel-button, .searchrow input::-webkit-search-decoration{-webkit-appearance:none; display:none;}
+.searchrow .clr{position:absolute; right:4px; top:50%; transform:translateY(-50%); width:40px; height:40px; border:none; background:transparent; color:var(--muted); font-size:18px; cursor:pointer; border-radius:8px;}
+.searchrow .clr[hidden]{display:none;}
+.ac{position:absolute; left:0; right:0; top:calc(100% + 6px); background:var(--card); border:1px solid var(--line); border-radius:14px; box-shadow:0 12px 32px rgba(16,22,19,.12); z-index:30; overflow:hidden; text-align:left; padding:6px;}
+.ac[hidden]{display:none;}
+.ac button{display:flex; width:100%; gap:10px; align-items:center; padding:10px 12px; border:none; border-radius:10px; background:transparent; font:inherit; font-size:15px; color:var(--ink); cursor:pointer; text-align:left; min-height:44px;}
+.ac button.on, .ac button:hover{background:var(--chip-bg);}
+.ac .ic{flex:none; width:22px; text-align:center;}
+.ac .ko{color:var(--muted); font-size:13.5px;}
+.ac .k{margin-left:auto; color:var(--muted); font-size:12px; white-space:nowrap; flex:none;}
+.ac .hint{padding:6px 12px 4px; color:var(--muted); font-size:12px;}
+.suggest{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+.suggest:empty{display:none;}
+.sug{border:1px dashed var(--line); background:var(--card); color:var(--ink); border-radius:999px; padding:6px 12px; font-size:13.5px; cursor:pointer; min-height:36px;}
+.sug span{color:var(--muted);}
+
+/* ---------- 결과 화면 ---------- */
+.results{display:none;}
+body.results-mode .results{display:block;}
+.topbar{display:flex; align-items:center; justify-content:space-between; gap:10px; padding-block:14px 4px;}
+.topbar .brand{font-size:20px;}
+.topbar a.small{font-size:13px; color:var(--muted); text-decoration:none; min-height:36px; display:inline-flex; align-items:center;}
+.controls{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:var(--bg); padding-block:8px 8px; border-bottom:1px solid var(--line);}
+.bar{display:flex; gap:8px; margin-top:8px; align-items:stretch;}
+@media (max-width:480px){ .bar{flex-wrap:wrap;} .bar .tg{flex:1 1 100%; justify-content:center;} .controls{position:static;} }
+.seg{display:flex; border:1px solid var(--line); border-radius:10px; overflow:hidden; background:var(--card);}
+.seg button{border:none; background:transparent; color:var(--muted); padding:0 12px; min-height:44px; font-size:14px; cursor:pointer;}
+.seg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); font-weight:500;}
+.seg[hidden]{display:none;}
+.tg{display:inline-flex; border:1px solid var(--line); border-radius:999px; background:var(--card); padding:3px; gap:2px;}
+.tg button{border:none; background:transparent; color:var(--muted); border-radius:999px; padding:0 16px; min-height:40px; font-size:14.5px; cursor:pointer; display:inline-flex; align-items:center; gap:6px;}
+.tg button[aria-pressed="true"]{background:var(--accent); color:var(--accent-ink); font-weight:500;}
+.tg button:disabled{opacity:.45; cursor:default;}
+.tg button small{font-size:11px; opacity:.8;}
+.hero .tg{margin-top:2px;}
+.feed{width:100%; max-width:640px; text-align:left; margin-top:22px; display:flex; flex-direction:column; gap:26px;}
+.feed h2{font-size:17px; font-weight:700; margin:0 0 10px; display:flex; align-items:center; gap:8px; letter-spacing:-.01em;}
+.feed h2 small{color:var(--muted); font-weight:400; font-size:13px; margin-left:auto;}
+.feed .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:8px;}
+@media (max-width:480px){ .feed .grid{grid-template-columns:repeat(2,1fr);} }
+.tile{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px 12px 11px; min-height:72px; display:flex; flex-direction:column; justify-content:space-between; gap:8px; cursor:pointer; text-align:left; font:inherit; font-size:14.5px; font-weight:600; color:var(--ink); transition:transform .15s ease, border-color .15s ease;}
+.tile:hover{border-color:var(--accent);} .tile:active{transform:scale(.97);}
+.tile .ic{font-size:22px; line-height:1;}
+.tile small{display:block; color:var(--muted); font-weight:400; font-size:12px; margin-top:2px;}
+.busy{margin-top:10px;}
+.busy .lb{font-size:12.5px; color:var(--muted); display:flex; justify-content:space-between; margin-bottom:4px;}
+.busy .bars{display:grid; grid-template-columns:repeat(24,1fr); gap:2px; height:34px; align-items:end;}
+.busy .bars i{display:block; background:var(--line); border-radius:2px 2px 0 0; min-height:2px;}
+.busy .bars i.on{background:var(--accent); opacity:.75;} .busy .bars i.now{background:var(--ink); opacity:1;}
+.busy .ax{display:flex; justify-content:space-between; font-size:10.5px; color:var(--muted); margin-top:2px;}
+.stn{font-size:13.5px; color:var(--muted); margin-top:4px;} .stn small{font-size:12px; opacity:.85;}
+.kc.warn{background:var(--warn-bg); color:var(--warn-ink); border-color:transparent;}
+.sort{display:flex; gap:6px; flex-wrap:wrap; align-items:center; margin:10px 0 0; font-size:13px; color:var(--muted);}
+.sort button{border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:999px; padding:0 12px; min-height:34px; font-size:13px; cursor:pointer;}
+.sort button[aria-pressed="true"]{background:var(--ink); color:var(--bg); border-color:var(--ink);}
+.card.flash{animation:cardflash 1.2s ease-out;} @keyframes cardflash{0%{box-shadow:0 0 0 3px var(--accent);} 100%{box-shadow:0 0 0 0 transparent;}}
+@media (prefers-reduced-motion: reduce){ .card.flash{animation:none;} }
+html, body{overflow-anchor:none;}
+.ranked{display:flex; gap:10px; align-items:flex-start;}
+.ranked .rk{font-family:"Fraunces",Georgia,serif; font-size:22px; font-weight:650; width:20px; flex:none; padding-top:12px; color:var(--muted); text-align:center;}
+.ranked .card{flex:1; min-width:0;}
+.feed .list{gap:10px;}
+.bar .tg{flex:0 0 auto;}
+@media (max-width:480px){ .bar .tg{flex:1 1 100%; justify-content:center;} }
+.pick{flex:1; display:flex; align-items:center; justify-content:space-between; gap:6px; border:1px solid var(--line); border-radius:10px; background:var(--card); color:var(--ink); padding:0 12px; min-height:44px; font-size:14px; cursor:pointer; text-align:left; min-width:0;}
+.pick>span{display:flex; align-items:baseline; gap:4px; min-width:0;}
+.pick b{display:block; font-weight:500; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.pick .lbl{color:var(--muted); font-size:12px; margin-right:4px;}
+.pick .car{color:var(--muted); flex:0 0 auto;}
+.pick.on{border-color:var(--accent);}
+.tokens{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;}
+.tokens:empty{display:none;}
+.tok{display:inline-flex; align-items:center; gap:6px; background:var(--badge-bg); color:var(--badge-ink); border-radius:999px; padding:0 6px 0 12px; font-size:13px; min-height:32px;}
+.tok button{border:none; background:transparent; color:inherit; width:28px; height:28px; border-radius:50%; cursor:pointer; font-size:15px; line-height:1;}
+.count{color:var(--muted); font-size:13px; margin:12px 2px 8px;}
+.list{display:flex; flex-direction:column; gap:10px;}
+.card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+.en{font-weight:700; font-size:16px;}
+.ko{font-size:22px; font-weight:500; letter-spacing:.01em; margin:2px 0 1px; user-select:all;}
+.meta{color:var(--muted); font-size:13px;}
+.menu{font-size:13.5px; margin-top:8px; color:var(--ink);}
+.top{display:flex; justify-content:space-between; align-items:flex-start; gap:10px;}
+.decide{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.kc.open{background:var(--badge-bg); border-color:transparent; color:var(--badge-ink);}
+.kc.fav{background:var(--fav-bg); color:var(--fav-ink); border-color:var(--fav-line); font-weight:600;}
+.kc.closed{background:transparent; color:var(--muted);}
+.kc .em{font-size:14px; line-height:1;}
+details.moreinfo{margin-top:10px; border-top:1px dashed var(--line); padding-top:6px;}
+details.moreinfo summary{cursor:pointer; color:var(--muted); font-size:13px; min-height:36px; display:flex; align-items:center; gap:6px; list-style:none;}
+details.moreinfo summary::-webkit-details-marker{display:none;}
+details.moreinfo summary::after{content:'▾'; margin-left:auto;}
+details.moreinfo[open] summary::after{content:'▴';}
+.menu .en{font-weight:500; font-size:13.5px; display:block;}
+.menu li{margin:4px 0; list-style:none;}
+.menu ul{padding:0; margin:4px 0 0;}
+.hrs{font-size:13px; color:var(--muted); margin-top:6px;}
+.diet{display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;}
+.diet button{border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:999px; padding:0 12px; min-height:36px; font-size:13px; cursor:pointer;}
+.diet button[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+
+.menu .pr{color:var(--muted); font-variant-numeric:tabular-nums;}
+.menu .rng{color:var(--muted); font-size:12.5px; margin-left:6px;}
+.score{color:var(--muted); font-variant-numeric:tabular-nums;}
+.dist{color:var(--accent); font-weight:500;}
+.badge{display:inline-flex; align-items:center; gap:6px; background:var(--badge-bg); color:var(--badge-ink); border-radius:999px; padding:3px 10px; font-size:12.5px; font-variant-numeric:tabular-nums; margin-top:8px;}
+.badge b{font-weight:600;}
+.say{font-size:13px; color:var(--muted); margin-top:6px;}
+.say b{color:var(--ink); font-weight:500;}
+.kcs{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+.kc{display:inline-flex; align-items:center; gap:6px; background:var(--chip-bg); border:1px solid var(--line); color:var(--ink); border-radius:8px; padding:5px 10px; font-size:13px; line-height:1.2;}
+.kc small{color:var(--muted); font-variant-numeric:tabular-nums; font-size:11.5px;}
+.kc.solo{background:var(--badge-bg); border-color:transparent; color:var(--badge-ink); font-weight:500;}
+.kc.fx{border-style:dashed; color:var(--ink);}
+.kc.fx small{color:var(--muted);}
+.actions{display:flex; gap:8px; align-items:center; margin-top:11px; flex-wrap:wrap;}
+.copy{background:var(--accent); color:var(--accent-ink); border:none; border-radius:8px; padding:0 14px; min-height:42px; font-size:14px; font-weight:500; cursor:pointer;}
+.copy:active{background:var(--accent-press);}
+.lnk{display:inline-flex; align-items:center; color:var(--ink); text-decoration:none; border:1px solid var(--line); border-radius:8px; padding:0 12px; min-height:42px; font-size:14px; background:transparent;}
+.lnk span{color:var(--muted); margin-left:3px;}
+.more{display:block; width:100%; margin-top:12px; border:1px solid var(--line); background:var(--card); color:var(--ink); border-radius:10px; padding:12px; font-size:14px; cursor:pointer; min-height:44px;}
+.empty{color:var(--muted); text-align:center; padding:28px 8px;}
+.empty .sugs{display:flex; gap:6px; flex-wrap:wrap; justify-content:center; margin-top:10px;}
+footer{margin-top:36px; border-top:1px solid var(--line); padding-top:18px; color:var(--muted); font-size:14px;}
+footer .cta{color:var(--ink); font-weight:500;}
+footer .fine{font-size:12.5px;}
+footer nav{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:10px;}
+footer nav a{color:var(--muted); text-decoration:none; min-height:32px; display:inline-flex; align-items:center;}
+
+/* ---------- 서브 페이지 ---------- */
+.page{display:none; padding-block:14px 0;}
+body.page-mode .page.active{display:block;}
+body.page-mode .results, body.page-mode .hero{display:none;}
+.page .back{display:inline-flex; align-items:center; gap:6px; color:var(--muted); text-decoration:none; font-size:14px; min-height:40px; margin-bottom:8px;}
+.page h1{font-family:"Fraunces",Georgia,serif; font-weight:650; font-size:clamp(26px,6vw,34px); line-height:1.15; margin:0 0 12px; text-wrap:balance;}
+.page h2{font-size:17px; margin:22px 0 6px;}
+.page p{color:var(--muted); margin:8px 0; max-width:62ch;}
+.page p b, .page li b{color:var(--ink);}
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:12px 0 0;}
+.step{background:var(--step-bg); border-radius:10px; padding:10px 12px; font-size:13.5px; line-height:1.4;}
+.step b{display:block; color:var(--accent); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:3px;}
+@media (max-width:420px){ .steps{grid-template-columns:1fr;} }
+.phr{display:grid; grid-template-columns:auto 1fr; gap:10px 16px; margin:12px 0; font-size:15px;}
+.phr .k{color:var(--ink); font-weight:600; white-space:nowrap; font-size:18px;}
+.phr .r{color:var(--muted);}
+.phr .r i{color:var(--ink); font-style:normal; font-weight:500;}
+
+/* ---------- 시트·토스트 ---------- */
+.scrim{position:fixed; inset:0; background:var(--scrim); z-index:20; opacity:0; pointer-events:none; transition:opacity .18s ease;}
+.scrim.open{opacity:1; pointer-events:auto;}
+.sheet{position:fixed; left:0; right:0; bottom:0; z-index:21; background:var(--card); border-radius:16px 16px 0 0; max-height:min(86vh, 720px); overflow:auto; padding:8px 16px calc(16px + env(safe-area-inset-bottom,0px)); transform:translateY(100%); transition:transform .22s ease; box-shadow:0 -8px 30px rgba(0,0,0,.18);}
+.sheet.open{transform:translateY(0);}
+@media (min-width:640px){ .sheet{left:50%; right:auto; bottom:auto; top:50%; width:560px; border-radius:16px; transform:translate(-50%,-50%) scale(.98); opacity:0;} .sheet.open{transform:translate(-50%,-50%) scale(1); opacity:1;} }
+.sheet .hd{display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:var(--card); padding:8px 0 6px; z-index:1;}
+.sheet .hd h2{margin:0; font-size:17px; font-weight:600;}
+.sheet .x{border:none; background:var(--chip-bg); color:var(--ink); width:40px; height:40px; border-radius:50%; font-size:18px; cursor:pointer;}
+.sheet h3{font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--muted); margin:14px 0 6px; font-weight:600;}
+.grid{display:grid; grid-template-columns:repeat(2,1fr); gap:8px;}
+@media (min-width:480px){ .grid{grid-template-columns:repeat(3,1fr);} }
+.opt{border:1px solid var(--line); background:var(--bg); color:var(--ink); border-radius:10px; padding:0 12px; min-height:44px; font-size:14px; cursor:pointer; text-align:left; display:flex; align-items:center; justify-content:space-between; gap:6px;}
+.opt small{color:var(--muted); font-variant-numeric:tabular-nums;}
+.opt[aria-pressed="true"]{background:var(--accent); border-color:var(--accent); color:var(--accent-ink);}
+.opt[aria-pressed="true"] small{color:var(--accent-ink); opacity:.85;}
+.opt.wide{grid-column:1 / -1;}
+.opt.near{border-style:dashed;}
+.toast{position:fixed; left:50%; transform:translateX(-50%) translateY(8px); bottom:calc(24px + env(safe-area-inset-bottom,0px)); z-index:30; background:var(--toast-bg); color:var(--toast-ink); border-radius:10px; padding:10px 18px; font-size:14px; opacity:0; pointer-events:none; transition:opacity .18s ease, transform .18s ease; max-width:88vw; text-align:center;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+@media (prefers-reduced-motion: reduce){ .sheet, .scrim, .toast{transition:none;} }
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- 홈: 검색만 -->
+  <section class="hero" id="hero">
+    <h1>Eat Alone<span class="brk" id="brk"> </span>in <span class="rot" id="rot"><span class="w">Seoul</span></span></h1>
+    <p><b id="heroCount">—</b> solo-friendly places across Seoul — with the Korean names <b>Naver Map</b> actually understands.</p>
+    <div class="box">
+      <div class="searchrow" id="homeSearch"></div>
+      <div class="ex" id="examples"></div>
+    </div>
+    <div class="tg" data-tg role="group" aria-label="Restaurants or cafés"></div>
+    <button class="near" id="nearHome">📍 Near me</button>
+    <a class="banner" href="#/why" aria-label="Why the Korean name matters">
+      <div class="t"><b>Why the Korean name matters</b><span>Google-style English names find the right place on Naver only 12–17% of the time. Every name here was checked: 100%. ↗</span></div>
+      <div class="pill no"><span class="m">🔍</span><span class="q">Myeongdong Kyoja</span><small>no result</small></div>
+      <div class="pill ok"><span class="m">🔍</span><span class="q">명동교자 본점</span><small>✓ found</small></div>
+    </a>
+    <div class="feed" id="feed"></div>
+    <div class="links">
+      <a href="#/all">Browse all</a>
+      <a href="#/how">How it works</a>
+      <a href="#/phrases">3 Korean phrases</a>
+      <a href="#/why">Why this exists</a>
+      <a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Request%3A%20%5Barea%20or%20place%5D&body=Which%20area%20or%20place%20should%20we%20add%3F%20(Any%20other%20city%20you%27d%20want%3F)%0A%0A" target="_blank" rel="noopener">Request an area ↗</a>
+    </div>
+  </section>
+
+  <!-- 결과 -->
+  <section class="results" id="resultsView">
+    <div class="topbar"><a class="brand" href="#/">Eat Alone in Seoul</a><a class="small" href="#/how">How it works</a></div>
+    <div class="controls">
+      <div class="searchrow" id="resultSearch"></div>
+      <div class="suggest" id="suggest" aria-live="polite"></div>
+      <div class="bar">
+        <div class="tg" data-tg role="group" aria-label="Restaurants or cafés"></div>
+        <button class="pick" id="pickArea" aria-haspopup="dialog"><span><span class="lbl">Area</span><b id="areaLbl">All Seoul</b></span><span class="car">▾</span></button>
+        <button class="pick" id="pickFood" aria-haspopup="dialog"><span><span class="lbl">Food</span><b id="foodLbl">Any</b></span><span class="car">▾</span></button>
+      </div>
+      <div class="diet" id="diet" role="group" aria-label="Dietary"></div>
+      <div class="tokens" id="tokens"></div>
+      <div class="sort" id="sort" role="group" aria-label="Sort results"><span>Sort</span></div>
+    </div>
+    <div class="count" id="count" aria-live="polite"></div>
+    <div class="list" id="list"></div>
+    <button class="more" id="more" hidden>Show more</button>
+    <footer>
+      <nav><a href="#/how">How it works</a><a href="#/phrases">Korean phrases</a><a href="#/why">Why this exists</a><a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Request%3A%20%5Barea%20or%20place%5D&body=Which%20area%20or%20place%20should%20we%20add%3F%20(Any%20other%20city%20you%27d%20want%3F)%0A%0A" target="_blank" rel="noopener">Request an area ↗</a><a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Wrong%20info%3A%20%5Bplace%20name%5D&body=What%20was%20wrong%20(name%20didn%27t%20find%20it%2C%20closed%2C%20hours%2C%20etc.)%3F%0A%0A" target="_blank" rel="noopener">Report wrong info ↗</a></nav>
+      <p id="coverage"></p>
+      <p class="cta">Missing your neighborhood? Found a name that doesn't match Google? <b>Comment on the Reddit post where you found this</b> — areas get added by request.</p>
+      <p class="fine">Solo-friendly votes = Naver visitors who voted “good for eating alone” (restaurants); for cafés, a combined score of “eating alone / focusing / time alone” votes with half-weight for “comfortable seats / calm / cozy”. “Koreans say” = their other top votes, translated. Hours, busy times and stations from Kakao Map and Google. Data collected Sep 19–20, 2026; closures re-checked Oct 7, 2026. Not affiliated with Naver, Kakao or Google.</p>
+    </footer>
+  </section>
+
+  <!-- 서브 페이지: How it works -->
+  <section class="page" id="page-how">
+    <a class="back" href="#/">← Back to search</a>
+    <h1>How it works</h1>
+    <div class="steps">
+      <div class="step"><b>1 · Search</b>Type anything — “hongdae station”, “ramen near gangnam”, a dish, a Korean name — or tap Near me.</div>
+      <div class="step"><b>2 · Copy</b>Tap <i>Copy Korean name</i>, or open the place straight in Naver Map or Kakao Map.</div>
+      <div class="step"><b>3 · Go</b>Paste into Naver Map. Hours, photos, the queue — and reviews in English if the app is set to English.</div>
+    </div>
+    <h2>What’s on each card</h2>
+    <p><b>Solo-friendly · N votes</b> — for restaurants: how many Naver visitors voted <i>“good for eating alone”</i> (혼밥하기 좋아요) for that exact place. Real diners, not opinions. A place makes the list when at least 30 visitors voted this <i>and</i> those votes are at least 15% of its most-voted keyword — so a tiny noodle bar and a 5,000-review ramen chain are judged on the same scale.</p>
+    <p><b>⭐ Solo favorite</b> — “good for eating alone” is at least 30% of that place’s top keyword. These are the places Koreans actively describe as solo spots, not just places that tolerate one diner.</p>
+    <p>For <b>cafés</b> the question is different — no café in Seoul turns away a solo customer; what matters is whether it’s a good place to sit alone for a while. So a café’s number combines Naver votes for <i>“good for eating alone”</i>, <i>“good for focusing”</i> and <i>“good for time alone”</i>, plus half-weight for <i>“comfortable seats”</i>, <i>“calm”</i> and <i>“cozy”</i>. It’s a weaker signal than the restaurant one, and we say so.</p>
+    <p><b>Koreans say</b> — the top things Korean visitors voted about the place, translated.</p>
+    <p><b>Ratings</b> — Naver’s visitor-review score (receipt-verified visits; Naver stopped showing it publicly in 2021, but it still exists) and Kakao Map’s user rating with its vote count, when available. They often disagree — Kakao skews harsher with fewer votes — so read the solo votes first, then the stars.</p>
+    <p><b>English menu · Kiosk · English-speaking staff · Menu with pictures</b> — shown when Google reviews written in English mention them for that place. It’s what other foreigners reported, not a guarantee; “reviews” next to the tag reminds you of that. No tag doesn’t mean no English menu — just that nobody mentioned it.</p>
+    <p><b>Open now / Closed now · Today’s hours</b> — from Google’s or Kakao Map’s listed opening hours (break times are treated as closed), computed in Seoul time. Holidays and last-order times can differ; when in doubt, check Naver Map.</p>
+    <p><b>Expect a wait / Usually no wait · Reservations</b> — waiting is inferred from English Google reviews mentioning a queue (an estimate, not live data); “Reservations” means Google lists the place as reservable — in Korea that usually means Naver or CatchTable booking.</p>
+    <p><b>Halal · Vegetarian options</b> — Halal is shown when reviews mention it or the place is a kebab / Turkish / Middle Eastern restaurant; always confirm at the counter. Vegetarian is Google’s own flag or a review mention.</p>
+    <p><b>🚇 Nearest station · Exit · walk time</b> — from Kakao Map’s directions data. Exit numbers matter in Seoul: the wrong exit can add ten minutes.</p>
+    <p><b>🚫 Closed Mon</b> — days with no listed opening hours. Korean restaurants often close one weekday; check the sign or Naver if it matters.</p>
+    <p><b>📊 Busy times</b> — Kakao Map’s hourly visitor counts for today’s weekday, scaled 0–9. A quiet hour is the easiest time to get a seat alone; the tall bars are when you may wait.</p>
+    <p><b>Sort</b> — “Most solo” ranks by the share of a place’s votes that are for eating alone (the truest solo signal); “Most votes” by raw count (popularity); “Rating” by the average of Naver, Google and Kakao stars; “Nearest” appears after you tap 📍 Near me.</p>
+    <p><b>Want another area or city? Found a wrong name?</b> — <a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Request%3A%20%5Barea%20or%20place%5D&body=Which%20area%20or%20place%20should%20we%20add%3F%20(Any%20other%20city%20you%27d%20want%3F)%0A%0A" target="_blank" rel="noopener">Request an area</a> · <a href="https://github.com/bokwonboy3/eat-alone-in-seoul/issues/new?title=Wrong%20info%3A%20%5Bplace%20name%5D&body=What%20was%20wrong%20(name%20didn%27t%20find%20it%2C%20closed%2C%20hours%2C%20etc.)%3F%0A%0A" target="_blank" rel="noopener">Report wrong info</a>. Both open a short form on GitHub (no account needed to read; a free one to post). Requests decide what we build next.</p>
+    <p><b>Menu &amp; prices</b> — the place’s own listed dishes on Naver, with our English rendering of each name (a translation aid, not the official menu) and a price range. Prices in ₩ (KRW); ₩10,000 ≈ US$7.</p>
+    <p><b>Reviews ↗</b> — opens the place in the <b>Naver Map app</b>. With the app (or your phone) set to English, visitor reviews are translated automatically. Install Naver Map first — it’s the app you’ll navigate with anyway.</p>
+    <p>The Korean name is always exact — it comes straight from Naver, and every one was tested to return the right restaurant. The English name is our best match to what Google shows; if you spot one that differs, tell us and we’ll fix it.</p>
+  </section>
+
+  <!-- 서브 페이지: Phrases -->
+  <section class="page" id="page-phrases">
+    <a class="back" href="#/">← Back to search</a>
+    <h1>Three Korean phrases for eating alone</h1>
+    <div class="phr">
+      <span class="k">혼자예요</span><span class="r"><i>hon-ja-ye-yo</i> — “Just me.” Say it at the door; it answers the only question they have.</span>
+      <span class="k">1인분 돼요?</span><span class="r"><i>il-in-bun dwae-yo?</i> — “Can I order one portion?” Useful at BBQ and stew places.</span>
+      <span class="k">여기서 먹고 갈게요</span><span class="r"><i>yeo-gi-seo meok-go gal-ge-yo</i> — “For here.” Kiosks and counters will ask.</span>
+    </div>
+    <p>Most places on this list have counter or bar seating, kiosks with an English option, or single-serving menus — nobody will blink.</p>
+  </section>
+
+  <!-- 서브 페이지: Why -->
+  <section class="page" id="page-why">
+    <a class="back" href="#/">← Back to search</a>
+    <h1>Why this exists</h1>
+    <p>Google Maps barely works for navigation in Korea — everyone uses Naver Map or Kakao Map. But those apps only know restaurants by their <b>Korean</b> names. Search “Hadongkwan” on Naver and you get nothing; search 하동관 and everything appears: hours, photos, waiting times, thousands of reviews.</p>
+    <p>We tested it: typing the Google-style English name into Naver finds the right place first time in <b>fewer than 1 in 5</b> cases. Typing the Korean name from this list: every time.</p>
+    <p>And solo dining? Some Korean restaurants turn away single diners (BBQ and stew places often require 2+ orders), and you can’t tell from Google — that information only lives in Korean-language reviews. So every place here was checked against Naver’s own visitor votes for <i>“good for eating alone”</i>. If it’s on the list, a table for one is fine.</p>
+    <p>Free. If your neighborhood isn’t covered, ask — areas get added by request.</p>
+  </section>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheetArea" role="dialog" aria-modal="true" aria-label="Choose an area" hidden>
+  <div class="hd"><h2>Area</h2><button class="x" id="xArea" aria-label="Close">✕</button></div>
+  <div class="grid" id="areaGrid"></div>
+</div>
+<div class="sheet" id="sheetFood" role="dialog" aria-modal="true" aria-label="Choose a food" hidden>
+  <div class="hd"><h2>Food</h2><button class="x" id="xFood" aria-label="Close">✕</button></div>
+  <div class="grid" id="foodGrid"></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const DATA = __DATA__;
+const AREAS = __AREAS__;
+DATA.forEach(function(r){ if(!r.t) r.t='r'; });
+const EMO = {"Solo-friendly":"🙋","Solo favorite":"⭐","Delicious":"😋","Fresh ingredients":"🌿","Big portions":"🍚","Good value":"💸","Friendly staff":"💗","Unique menu":"👨‍🍳","Nice interior":"🪑","Spacious":"🏠","Clean":"🧼","Cozy":"🛋️",
+ "Quality meat":"🥩","Great side dishes":"🥗","Fast service":"⚡","Healthy":"🥦","Easy parking":"🅿️","Great view":"🌆","Good for conversation":"💬","Good drink selection":"🍶","Photogenic":"📸","Good coffee":"☕",
+ "Good desserts":"🍰","Good drinks":"🥤","Calm atmosphere":"🌙","Comfortable seating":"💺","Good for focusing":"📚","Good for lingering":"⏳","Good bar snacks":"🍢","Good course menu":"🍱","Worth the price":"💎",
+ "Unique concept":"✨","Authentic taste":"🍜","Good bread":"🥖","Good cake":"🎂","Pet-friendly":"🐶","Private rooms":"🚪","Clean restrooms":"🚻","Good for groups":"👥","Well-rounded menu":"📋","Neat takeout":"🥡",
+ "Nice outdoor seating":"🌤️","They grill it for you":"🔥","Good for solo drinks":"🍻","Good for special occasions":"🎉","Wide variety":"🍽️","Quiet":"🤫",
+ "English menu":"📖","Kiosk":"🖥️","English-speaking staff":"🗣️","Menu with pictures":"🖼️","Halal":"🕌","Vegetarian options":"🥬","Expect a wait":"⏱️","Usually no wait":"🟢","Reservations":"📅","Open now":"🟢","Closed now":"⛔"};
+function emo(k){ return EMO[k] ? '<span class="em">'+EMO[k]+'</span> ' : ''; }
+function seoulNow(){ const d = new Date(); const s = new Date(d.toLocaleString('en-US',{timeZone:'Asia/Seoul'})); return {day: s.getDay(), min: s.getHours()*60+s.getMinutes()}; }
+function openState(periods){ if(!periods || !periods.length) return null; const now = seoulNow(); const t = now.day*1440 + now.min; let openUntil = null;
+  for(const p of periods){ if(p[0]==null) continue; const o = p[0]*1440 + (p[1]||0)*60 + (p[2]||0); let c = (p[3]==null) ? o + 1440 : p[3]*1440 + (p[4]||0)*60 + (p[5]||0); if(c < o) c += 7*1440;
+    for(const off of [0, 7*1440, -7*1440]){ const tt = t + off; if(tt >= o && tt < c){ const cm = ((c % 1440) + 1440) % 1440; openUntil = String(Math.floor(cm/60)).padStart(2,'0')+':'+String(cm%60).padStart(2,'0'); } } }
+  if(openUntil) return {open:true, until:openUntil};
+  // 다음 오픈
+  let best=null; for(const p of periods){ if(p[0]==null) continue; const o = p[0]*1440 + (p[1]||0)*60 + (p[2]||0); let diff = o - t; if(diff < 0) diff += 7*1440; if(best===null || diff < best.diff) best = {diff:diff, o:o}; }
+  if(!best) return {open:false}; const om = best.o % 1440; const dayName = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][Math.floor(best.o/1440)];
+  return {open:false, next: (best.diff < 1440 ? '' : dayName+' ') + String(Math.floor(om/60)).padStart(2,'0')+':'+String(om%60).padStart(2,'0')}; }
+function todayHours(periods){ if(!periods||!periods.length) return ''; const d = seoulNow().day; const f=function(h,mm){ return String(h||0).padStart(2,'0')+':'+String(mm||0).padStart(2,'0'); };
+  const late = periods.filter(function(p){ return p[0]!==d && p[3]===d && (p[4]||0) < 12; }).map(function(p){ return 'until '+f(p[4],p[5])+' (from yesterday)'; });
+  const ps = periods.filter(function(p){ return p[0]===d; }).map(function(p){ return p[3]==null ? '24 hours' : f(p[1],p[2])+'–'+f(p[4],p[5]); });
+  const all = late.concat(ps); return all.length ? all.join(', ') : 'Closed today'; }
+
+/* ---------- 구역 메타 ---------- */
+const REGION = {
+  "Central":["Myeongdong","Jongno","Insadong","Ikseon-dong","Seochon","Bukchon","Gwanghwamun","Euljiro (Hipjiro)","Chungmuro","Dongdaemun","Hyehwa"],
+  "West · Hongdae":["Hongdae","Yeonnam","Hapjeong","Mangwon","Sinchon","Edae","Yeouido","Yeongdeungpo","Mullae","Magok","Mok-dong"],
+  "Yongsan · Itaewon":["Itaewon","Haebangchon","Hannam","Yongridan-gil"],
+  "East · Seongsu":["Seongsu","Konkuk Univ.","Wangsimni"],
+  "Gangnam · Jamsil":["Gangnam Stn.","Seocho","Garosu-gil","Apgujeong","Apgujeong Rodeo","Cheongdam","Samseong · COEX","Daechi","Jamsil","Songridan-gil"],
+  "South-west":["Noryangjin","Sillim","Sadang"]
+};
+const GEO = {"Myeongdong":[37.5636,126.9838],"Hongdae":[37.5563,126.9236],"Yeonnam":[37.5628,126.9253],"Hapjeong":[37.5497,126.9139],"Mangwon":[37.5560,126.9020],"Sinchon":[37.5585,126.9368],"Edae":[37.5572,126.9462],
+ "Seongsu":[37.5445,127.0560],"Konkuk Univ.":[37.5405,127.0700],"Wangsimni":[37.5613,127.0378],"Itaewon":[37.5345,126.9946],"Haebangchon":[37.5445,126.9860],"Hannam":[37.5340,127.0016],
+ "Yongridan-gil":[37.5310,126.9720],"Gangnam Stn.":[37.4980,127.0276],"Seocho":[37.4935,127.0140],"Samseong · COEX":[37.5090,127.0600],"Daechi":[37.4990,127.0570],"Garosu-gil":[37.5200,127.0230],
+ "Apgujeong":[37.5270,127.0285],"Apgujeong Rodeo":[37.5273,127.0400],"Cheongdam":[37.5240,127.0500],"Jamsil":[37.5133,127.1000],"Songridan-gil":[37.5085,127.1080],"Jongno":[37.5700,126.9830],"Insadong":[37.5740,126.9855],"Ikseon-dong":[37.5740,126.9895],
+ "Seochon":[37.5790,126.9720],"Bukchon":[37.5815,126.9840],"Gwanghwamun":[37.5710,126.9770],"Euljiro (Hipjiro)":[37.5660,126.9910],"Chungmuro":[37.5615,126.9940],"Dongdaemun":[37.5665,127.0090],
+ "Hyehwa":[37.5820,127.0020],"Yeouido":[37.5215,126.9245],"Yeongdeungpo":[37.5170,126.9070],"Mullae":[37.5140,126.8950],"Noryangjin":[37.5130,126.9425],"Sillim":[37.4845,126.9295],
+ "Sadang":[37.4765,126.9815],"Magok":[37.5600,126.8250],"Mok-dong":[37.5265,126.8645]};
+const AREA_ALIAS = {
+ "hongdae":"Hongdae","hongik":"Hongdae","hongik university":"Hongdae","hongik univ":"Hongdae","홍대":"Hongdae","홍대입구":"Hongdae",
+ "yeonnam":"Yeonnam","yeonnam-dong":"Yeonnam","연남":"Yeonnam","연남동":"Yeonnam",
+ "hapjeong":"Hapjeong","합정":"Hapjeong","mangwon":"Mangwon","망원":"Mangwon",
+ "sinchon":"Sinchon","shinchon":"Sinchon","신촌":"Sinchon","ewha":"Edae","edae":"Edae","ehwa":"Edae","ewha womans university":"Edae","이대":"Edae","이화여대":"Edae",
+ "seongsu":"Seongsu","seongsu-dong":"Seongsu","seoul forest":"Seongsu","성수":"Seongsu","성수동":"Seongsu","서울숲":"Seongsu",
+ "konkuk":"Konkuk Univ.","kondae":"Konkuk Univ.","geondae":"Konkuk Univ.","kunkuk":"Konkuk Univ.","건대":"Konkuk Univ.",
+ "wangsimni":"Wangsimni","hanyang":"Wangsimni","왕십리":"Wangsimni",
+ "itaewon":"Itaewon","gyeongnidan":"Itaewon","경리단길":"Itaewon","이태원":"Itaewon","haebangchon":"Haebangchon","hbc":"Haebangchon","noksapyeong":"Haebangchon","해방촌":"Haebangchon",
+ "hannam":"Hannam","한남":"Hannam","한남동":"Hannam",
+ "yongsan":"Yongridan-gil","yongridan":"Yongridan-gil","samgakji":"Yongridan-gil","용산":"Yongridan-gil","용리단길":"Yongridan-gil","삼각지":"Yongridan-gil",
+ "gangnam":"Gangnam Stn.","kangnam":"Gangnam Stn.","강남":"Gangnam Stn.","강남역":"Gangnam Stn.",
+ "seocho":"Seocho","gyodae":"Seocho","서초":"Seocho","교대":"Seocho",
+ "seolleung":"Samseong · COEX","samseong":"Samseong · COEX","samsung":"Samseong · COEX","coex":"Samseong · COEX","선릉":"Samseong · COEX","삼성":"Samseong · COEX","코엑스":"Samseong · COEX","daechi":"Daechi","대치":"Daechi",
+ "garosugil":"Garosu-gil","garosu":"Garosu-gil","garosu-gil":"Garosu-gil","sinsa":"Garosu-gil","shinsa":"Garosu-gil","가로수길":"Garosu-gil","신사":"Garosu-gil",
+ "apgujeong":"Apgujeong","압구정":"Apgujeong","rodeo":"Apgujeong Rodeo","apgujeong rodeo":"Apgujeong Rodeo","압구정로데오":"Apgujeong Rodeo","cheongdam":"Cheongdam","청담":"Cheongdam",
+ "jamsil":"Jamsil","lotte world":"Jamsil","잠실":"Jamsil",
+ "songridan":"Songridan-gil","songridan-gil":"Songridan-gil","seokchon":"Songridan-gil","bangi":"Songridan-gil","송리단길":"Songridan-gil","석촌":"Songridan-gil","방이":"Songridan-gil",
+ "jongno":"Jongno","jongro":"Jongno","jonggak":"Jongno","종로":"Jongno","종각":"Jongno","insadong":"Insadong","insa-dong":"Insadong","인사동":"Insadong",
+ "ikseon":"Ikseon-dong","ikseondong":"Ikseon-dong","ikseon-dong":"Ikseon-dong","익선동":"Ikseon-dong",
+ "seochon":"Seochon","gyeongbokgung":"Seochon","서촌":"Seochon","경복궁":"Seochon","bukchon":"Bukchon","samcheong":"Bukchon","anguk":"Bukchon","북촌":"Bukchon","삼청동":"Bukchon","안국":"Bukchon",
+ "gwanghwamun":"Gwanghwamun","city hall":"Gwanghwamun","cityhall":"Gwanghwamun","광화문":"Gwanghwamun","시청":"Gwanghwamun",
+ "euljiro":"Euljiro (Hipjiro)","hipjiro":"Euljiro (Hipjiro)","을지로":"Euljiro (Hipjiro)",
+ "chungmuro":"Chungmuro","pildong":"Chungmuro","충무로":"Chungmuro","필동":"Chungmuro",
+ "dongdaemun":"Dongdaemun","ddp":"Dongdaemun","동대문":"Dongdaemun",
+ "hyehwa":"Hyehwa","daehangno":"Hyehwa","daehak-ro":"Hyehwa","daehakro":"Hyehwa","혜화":"Hyehwa","대학로":"Hyehwa",
+ "yeouido":"Yeouido","여의도":"Yeouido",
+ "yeongdeungpo":"Yeongdeungpo","영등포":"Yeongdeungpo","mullae":"Mullae","문래":"Mullae",
+ "noryangjin":"Noryangjin","노량진":"Noryangjin",
+ "sillim":"Sillim","shillim":"Sillim","신림":"Sillim",
+ "sadang":"Sadang","isu":"Sadang","bangbae":"Sadang","사당":"Sadang","이수":"Sadang","방배":"Sadang",
+ "magok":"Magok","마곡":"Magok",
+ "mokdong":"Mok-dong","mok-dong":"Mok-dong","목동":"Mok-dong",
+ "myeongdong":"Myeongdong","myeong-dong":"Myeongdong","myungdong":"Myeongdong","명동":"Myeongdong"
+};
+const FOODS = [["Ramen","Ramen"],["Tonkatsu","Tonkatsu"],["Gukbap & soups","Gukbap"],["Kimbap & snacks","Kimbap"],["Udon & soba","Udon"],["Noodles","noodle"],["Malatang","Malatang"],
+  ["Hot pot","pot"],["Shabu-shabu","Shabu"],["Curry","curry"],["Sushi","Sushi"],["Rice bowls","bowl"],["Korean","Korean"],["Salad & poke","poke"],["Burgers","Burger"],["Kebab","Kebab"],
+  ["Coffee & cafés","Caf"],["Bakery & dessert","Bakery"],["Tea house","Tea"]];
+const FOOD_ALIAS = {"ramen":"Ramen","ramyeon":"Ramen","tonkatsu":"Tonkatsu","katsu":"Tonkatsu","donkatsu":"Tonkatsu","cutlet":"Tonkatsu","gukbap":"Gukbap","soup":"Gukbap","kimbap":"Kimbap","gimbap":"Kimbap",
+  "udon":"Udon","soba":"Udon","malatang":"Malatang","mala":"Malatang","hotpot":"pot","huoguo":"pot","shabu":"Shabu","curry":"curry","sushi":"Sushi","bowl":"bowl","donburi":"bowl","deopbap":"bowl",
+  "korean":"Korean","poke":"poke","salad":"poke","burger":"Burger","burgers":"Burger","kebab":"Kebab","coffee":"Caf","cafe":"Caf","café":"Caf","cafes":"Caf","bakery":"Bakery","bread":"Bakery","dessert":"Bakery","cake":"Bakery",
+  "tea":"Tea","noodle":"noodle","noodles":"noodle","naengmyeon":"noodle","라멘":"Ramen","돈까스":"Tonkatsu","국밥":"Gukbap","김밥":"Kimbap","우동":"Udon","마라탕":"Malatang","훠궈":"pot","샤브":"Shabu","카레":"curry","초밥":"Sushi","덮밥":"bowl","카페":"Caf","커피":"Caf","빵":"Bakery"};
+const STOP = new Set(["station","stn","st","subway","exit","area","near","nearby","around","close","in","at","the","a","to","of","seoul","korea","dong","gu","restaurant","restaurants","place","places","food","eat","eating","alone","solo","good","best","spot","spots","역","근처","맛집","혼밥"]);
+const FOOD_LABEL = {}; FOODS.forEach(function(f){ FOOD_LABEL[f[1]] = f[0]; });
+
+/* ---------- 상태 ---------- */
+let area = null, food = null, type = "r", query = "", shown = 40, here = null, browsing = false, diet = {halal:false, veg:false};
+const PAGE = 40;
+let pickId = null, pickQ = '';
+let sortBy = 'ratio';
+function ratingOf(r){ const v = [r.score, r.gscore, r.kscore].filter(Boolean); return v.length ? v.reduce(function(a,b){ return a+b; },0)/v.length : 0; }
+function renderSort(){
+  const el = $('sort'); if(!el) return;
+  const opts = [['ratio','⭐ Most solo'],['votes','🙋 Most votes'],['rating','★ Rating']].concat(here ? [['near','📍 Nearest']] : []);
+  el.innerHTML = '<span>Sort</span>' + opts.map(function(o){ return '<button type="button" data-s="'+o[0]+'" aria-pressed="'+(sortBy===o[0])+'">'+o[1]+'</button>'; }).join('');
+  el.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ sortBy = b.getAttribute('data-s'); shown = PAGE; render(); }); });
+}
+const $ = function(id){ return document.getElementById(id); };
+const listEl=$('list'), countEl=$('count'), moreEl=$('more'), toastEl=$('toast'), tokensEl=$('tokens'), sugEl=$('suggest');
+const hasCafes = DATA.some(function(r){ return r.t==='c'; });
+function renderToggles(){ document.querySelectorAll('[data-tg]').forEach(function(el){ el.innerHTML='';
+  [['r','\u{1F37D}','Restaurants'],['c','\u2615','Caf\u00e9s']].forEach(function(o){ const b=document.createElement('button'); b.setAttribute('aria-pressed', String(type===o[0]));
+    b.innerHTML = o[1]+' '+o[2] + ((o[0]==='c' && !hasCafes) ? ' <small>soon</small>' : ''); if(o[0]==='c' && !hasCafes) b.disabled = true;
+    b.addEventListener('click', function(){ if(type===o[0]) return; type=o[0]; food=null; diet.halal=false; diet.veg=false; shown=PAGE; renderToggles(); renderDiet(); const fd=$('feed'); if(fd){ fd.innerHTML=''; buildFeed(); } $('heroCount').textContent = DATA.filter(function(r){ return r.t===type; }).length.toLocaleString('en'); if(document.body.classList.contains('results-mode')) render(); else updateHash(); });
+    el.appendChild(b); }); }); }
+function renderDiet(){ const el=$('diet'); el.innerHTML=''; [['halal','🕌 Halal'],['veg','🥬 Vegetarian']].forEach(function(o){ const n = DATA.filter(function(r){ return r.t===type && r.fx && r.fx[o[0]]; }).length; const b=document.createElement('button'); b.setAttribute('aria-pressed', String(diet[o[0]])); b.textContent = o[1] + (n?' · '+n:''); b.disabled = !n && !diet[o[0]]; b.addEventListener('click', function(){ diet[o[0]] = !diet[o[0]]; shown=PAGE; renderDiet(); render(); }); el.appendChild(b); }); }
+renderDiet();
+renderToggles();
+$('heroCount').textContent = DATA.filter(function(r){ return r.t===type; }).length.toLocaleString('en');
+$('coverage').textContent = 'Currently covering ' + AREAS.length + ' areas in Seoul: ' + AREAS.join(', ') + '.';
+
+/* 단일 검색창: 홈/결과 사이를 이동 */
+const qEl = document.createElement('input'); qEl.id='q'; qEl.type='search'; qEl.placeholder='Try “hongdae station” or “ramen near gangnam”'; qEl.setAttribute('aria-label','Search by place, area, or food'); qEl.autocomplete='off'; qEl.autocapitalize='off';
+const acEl = document.createElement('div'); acEl.className='ac'; acEl.hidden=true; acEl.id='ac';
+qEl.setAttribute('role','combobox'); qEl.setAttribute('aria-expanded','false'); qEl.setAttribute('aria-controls','aclist'); qEl.setAttribute('aria-autocomplete','list'); qEl.enterKeyHint='search';
+const clrBtn = document.createElement('button'); clrBtn.className='clr'; clrBtn.id='clr'; clrBtn.setAttribute('aria-label','Clear search'); clrBtn.textContent='✕'; clrBtn.hidden=true;
+function mountSearch(where){ const box=$(where); if(qEl.parentNode!==box){ box.appendChild(qEl); box.appendChild(clrBtn); box.appendChild(acEl); } acHide(); }
+
+/* ---------- 라우팅 ---------- */
+function route(){
+  const h = location.hash.replace(/^#\/?/,'');
+  const page = ['how','phrases','why'].indexOf(h.split('?')[0])>=0 ? h.split('?')[0] : null;
+  document.body.classList.remove('home','results-mode','page-mode');
+  document.querySelectorAll('.page').forEach(function(p){ p.classList.remove('active'); });
+  if(page){ document.body.classList.add('page-mode'); $('page-'+page).classList.add('active'); window.scrollTo(0,0); return; }
+  if(h==='all') browsing = true;
+  const active = browsing || query || area || food || here;
+  if(active){ document.body.classList.add('results-mode'); mountSearch('resultSearch'); render(); }
+  else { document.body.classList.add('home'); mountSearch('homeSearch'); buildFeed(); window.scrollTo(0,0); }
+}
+const TILE_EMO = {"Ramen":"🍜","Tonkatsu":"🍱","Gukbap":"🥣","Kimbap":"🍙","Udon":"🥢","noodle":"🍝","Sushi":"🍣","bowl":"🍚","Malatang":"🌶️","Korean":"🍲","Burger":"🍔","Shabu":"🥘","curry":"🍛","Kebab":"🥙","poke":"🥗","pot":"🍲"};
+function buildFeed(){
+  const el = $('feed'); if(!el || el.childElementCount) return;
+  const pool = DATA.filter(function(r){ return r.t===type; });
+  // 음식 타일: 결과가 있는 카테고리만, 개수 순
+  const foods = FOODS.map(function(f){ return {label:f[0], key:f[1], n: pool.filter(function(r){ return (r.cat+' '+r.en).toLowerCase().indexOf(f[1].toLowerCase())>=0; }).length}; })
+    .filter(function(f){ return f.n>=4; }).sort(function(a,b){ return b.n-a.n; }).slice(0,7);
+  let html = '<div><h2>What do you feel like?</h2><div class="grid">' + foods.map(function(f){
+    return '<button class="tile" data-food="'+esc(f.key)+'"><span class="ic">'+(TILE_EMO[f.key]||'🍽️')+'</span><span>'+esc(f.label)+'<small>'+f.n+' places</small></span></button>'; }).join('')
+    + '<button class="tile" data-food="*"><span class="ic">🗂️</span><span>All food<small>'+pool.length+' places</small></span></button></div></div>';
+  // 동네 타일: 개수 순 상위 7 + 전체
+  const ac = {}; pool.forEach(function(r){ ac[r.area]=(ac[r.area]||0)+1; });
+  const areas = Object.keys(ac).sort(function(a,b){ return ac[b]-ac[a]; }).slice(0,7);
+  html += '<div><h2>Where are you?</h2><div class="grid">' + areas.map(function(a){
+    return '<button class="tile" data-area="'+esc(a)+'"><span class="ic">📍</span><span>'+esc(a)+'<small>'+ac[a]+' places</small></span></button>'; }).join('')
+    + '<button class="tile" data-area="*"><span class="ic">🗺️</span><span>All areas<small>'+Object.keys(ac).length+' neighborhoods</small></span></button></div></div>';
+  // 지금 뜨는 혼밥집: 표 500+ 중 혼밥 비율 높은 순
+  const top = pool.filter(function(r){ return r.votes>=500 && r.ratio; }).sort(function(a,b){ return (b.ratio-a.ratio) || (b.votes-a.votes); }).slice(0,5);
+  html += '<div><h2>⭐ Solo favorites<small>by share of “good for eating alone” votes</small></h2><div class="list">' + top.map(function(r,i){ return '<div class="ranked"><div class="rk">'+(i+1)+'</div>'+card(r)+'</div>'; }).join('') + '</div></div>';
+  el.innerHTML = html;
+  el.querySelectorAll('.tile[data-food]').forEach(function(b){ b.addEventListener('click', function(){ const v=b.getAttribute('data-food'); food = v==='*' ? null : v; area=null; browsing=true; shown=PAGE; goResults(); render(); }); });
+  el.querySelectorAll('.tile[data-area]').forEach(function(b){ b.addEventListener('click', function(){ const v=b.getAttribute('data-area'); area = v==='*' ? null : v; food=null; browsing=true; shown=PAGE; goResults(); render(); }); });
+  el.querySelectorAll('.copy').forEach(function(b){ b.addEventListener('click', function(){ copyKo(b.getAttribute('data-ko')); }); });
+}
+/* ---------- 제목 동네 순환 ---------- */
+(function(){
+  const rot = $('rot'); if(!rot) return;
+  const SHORT = {"Gangnam Stn.":"Gangnam","Konkuk Univ.":"Konkuk","Euljiro (Hipjiro)":"Euljiro","Samseong · COEX":"COEX","Apgujeong Rodeo":"Apgujeong"};
+  const ac = {}; DATA.forEach(function(r){ if(r.t!=='c') ac[r.area]=(ac[r.area]||0)+1; });
+  const words = ['Seoul'].concat(Object.keys(ac).sort(function(a,b){ return ac[b]-ac[a]; }).slice(0,10).map(function(a){ return SHORT[a]||a; }));
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, busy = false;
+  function measure(w){ const m=document.createElement('span'); m.className='w m'; m.textContent=w; rot.appendChild(m); const px=m.getBoundingClientRect().width; rot.removeChild(m); return px; }
+  function setWidth(){ const cur = rot.querySelector('.w:not(.out):not(.m)'); if(cur) rot.style.width = Math.ceil(cur.getBoundingClientRect().width)+'px'; }
+  const h1 = rot.closest('h1'), brk = $('brk');
+  function fit(){   // 가장 긴 동네명 기준으로 줄 수를 고정 → 단어가 바뀌어도 레이아웃이 안 튐
+    let longest = 0; words.forEach(function(w){ longest = Math.max(longest, measure(w)); });
+    const probe = document.createElement('span'); probe.style.cssText='position:absolute;visibility:hidden;white-space:nowrap;left:0;top:0'; probe.textContent='Eat Alone in '; h1.appendChild(probe);
+    const need = probe.getBoundingClientRect().width + longest; h1.removeChild(probe);
+    brk.classList.toggle('on', need > h1.clientWidth - 4);
+    setWidth();
+  }
+  fit(); window.addEventListener('resize', fit); if(document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+  function next(){
+    if(busy || document.hidden || !document.body.classList.contains('home')) return;
+    i = (i+1) % words.length; const word = words[i];
+    const cur = rot.querySelector('.w:not(.out):not(.m)'); if(!cur) return;
+    if(reduce){ cur.textContent = word; setWidth(); return; }
+    busy = true;
+    const nw = document.createElement('span'); nw.className='w in'; nw.textContent=word;
+    cur.classList.add('out'); rot.appendChild(nw);
+    rot.style.width = Math.ceil(measure(word))+'px';
+    setTimeout(function(){ if(cur.parentNode) rot.removeChild(cur); nw.classList.remove('in'); busy=false; }, 480);
+  }
+  rot.setAttribute('aria-live','off');
+  if(!reduce) setInterval(next, 2300);
+})();
+window.addEventListener('hashchange', route);
+function goHome(){ browsing=false; query=''; qEl.value=''; area=null; food=null; here=null; updateHash(true); route(); }
+function goResults(focus){ if(!document.body.classList.contains('results-mode')){ document.body.classList.add('results-mode'); document.body.classList.remove('home','page-mode'); mountSearch('resultSearch'); if(focus) qEl.focus(); } }
+
+/* ---------- 검색 해석 ---------- */
+function norm(s){ return s.toLowerCase().replace(/[’'"“”.,!?()]/g,' ').replace(/\s+/g,' ').trim(); }
+function parseQuery(q){
+  const out = {area:null, food:null, words:[]};
+  let s = norm(q);
+  if(!s) return out;
+  Object.keys(AREA_ALIAS).filter(function(k){ return k.indexOf(' ')>=0; }).forEach(function(k){ if(s.indexOf(k)>=0){ out.area = AREA_ALIAS[k]; s = s.replace(k,' '); } });
+  s.split(' ').filter(Boolean).forEach(function(w){
+    const w2 = w.replace(/-?dong$|-?gu$/,'');
+    if(!out.area && (AREA_ALIAS[w] || AREA_ALIAS[w2])){ out.area = AREA_ALIAS[w] || AREA_ALIAS[w2]; return; }
+    if(!out.food && FOOD_ALIAS[w]){ out.food = FOOD_ALIAS[w]; return; }
+    if(STOP.has(w)) return;
+    out.words.push(w);
+  });
+  return out;
+}
+function lev(a,b){ const m=a.length,n=b.length; if(!m) return n; if(!n) return m; const d=[]; for(let i=0;i<=m;i++){ d[i]=[i]; } for(let j=1;j<=n;j++){ d[0][j]=j; }
+  for(let i=1;i<=m;i++){ for(let j=1;j<=n;j++){ d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1)); } } return d[m][n]; }
+function suggestions(q){
+  const s = norm(q); if(s.length<2) return [];
+  const last = s.split(' ').filter(Boolean).pop() || s;
+  const seen = {}; const out = [];
+  function add(kind, val){ const id=kind+val; if(seen[id]) return; seen[id]=1; out.push({kind:kind, val:val, label:(kind==='area'?val:FOOD_LABEL[val]||val)}); }
+  Object.keys(AREA_ALIAS).forEach(function(k){ if(k.indexOf(last)===0 || (last.length>=4 && lev(k,last)<=2)) add('area',AREA_ALIAS[k]); });
+  Object.keys(FOOD_ALIAS).forEach(function(k){ if(k.indexOf(last)===0 || (last.length>=4 && lev(k,last)<=1)) add('food',FOOD_ALIAS[k]); });
+  return out.slice(0,5);
+}
+
+/* ---------- 렌더 ---------- */
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function effective(){ const p = parseQuery(query); return {area: p.area || area, food: p.food || food, words:p.words, fromQuery:p}; }
+function render(){
+  if(sortBy==='near' && !here) sortBy='ratio';
+  if(pickId && query!==pickQ) pickId=null;
+  const e = effective();
+  const rows = DATA.filter(function(r){
+    if(pickId && r.id!==pickId) return false;
+    if(r.t!==type) return false;
+    if(diet.halal && !(r.fx && r.fx.halal)) return false;
+    if(diet.veg && !(r.fx && r.fx.veg)) return false;
+    if(e.area && r.area!==e.area) return false;
+    if(e.food && (r.cat+' '+r.en).toLowerCase().indexOf(e.food.toLowerCase())<0) return false;
+    if(!e.words.length) return true;
+    const hay = (r.en+' '+r.ko+' '+r.cat+' '+r.area+' '+(r.say||[]).join(' ')).toLowerCase();
+    return e.words.every(function(w){ return hay.indexOf(w)>=0; });
+  });
+  if(here){ rows.forEach(function(r){ r._d = (r.lat&&r.lng) ? Math.hypot((r.lat-here[0])*111, (r.lng-here[1])*88) : 999; }); }
+  if(sortBy==='near' && here) rows.sort(function(a,b){ return a._d-b._d; });
+  else if(sortBy==='rating') rows.sort(function(a,b){ return (ratingOf(b)-ratingOf(a)) || (b.votes-a.votes); });
+  else if(sortBy==='ratio') rows.sort(function(a,b){ return ((b.ratio||0)-(a.ratio||0)) || (b.votes-a.votes); });
+  else if(sortBy==='votes') rows.sort(function(a,b){ return b.votes-a.votes; });
+  else if(here) rows.sort(function(a,b){ return a._d-b._d; });
+  renderSort();
+  $('areaLbl').textContent = e.area || 'All Seoul'; $('pickArea').classList.toggle('on', !!e.area);
+  $('foodLbl').textContent = e.food ? (FOOD_LABEL[e.food]||e.food) : 'Any'; $('pickFood').classList.toggle('on', !!e.food);
+  tokensEl.innerHTML = '';
+  if(e.area) tokensEl.appendChild(token(e.area, function(){ area=null; if(e.fromQuery.area){ stripFromQuery('area'); } render(); }));
+  if(e.food) tokensEl.appendChild(token(FOOD_LABEL[e.food]||e.food, function(){ food=null; if(e.fromQuery.food){ stripFromQuery('food'); } render(); }));
+  if(here) tokensEl.appendChild(token('Near me', function(){ here=null; render(); }));
+  const noun = type==='c'?(rows.length===1?'café':'cafés'):(rows.length===1?'restaurant':'restaurants');
+  countEl.textContent = rows.length + ' ' + noun + (e.area?' in '+e.area:' across Seoul') + (here?' · nearest first':'');
+  const slice = rows.slice(0, shown);
+  listEl.innerHTML = slice.map(card).join('') || emptyState(e);
+  moreEl.hidden = rows.length <= shown;
+  if(!moreEl.hidden) moreEl.textContent = 'Show more (' + (rows.length - shown) + ' left)';
+  listEl.querySelectorAll('.copy').forEach(function(b){ b.addEventListener('click', function(){ copyKo(b.getAttribute('data-ko')); }); });
+  listEl.querySelectorAll('.sug').forEach(function(b){ b.addEventListener('click', function(){ applySug(b.dataset.kind, b.dataset.val); }); });
+  clrBtn.hidden = !query;
+  sugEl.innerHTML = '';
+  if(query && e.words.length && rows.length){ suggestions(e.words[e.words.length-1]).forEach(function(s){ sugEl.appendChild(sugChip(s)); }); }
+  updateHash();
+}
+function card(r){
+  const q = r.q || r.ko, enc = encodeURIComponent(q);
+  const won = function(n){ const v = Number(n); return '₩'+esc(isFinite(v) && v ? v.toLocaleString('en') : String(n)); };
+  const solo = r.t==='c' ? 'good for sitting alone: eating alone + focusing + time alone votes (half-weight: comfortable seats, calm, cozy)' : 'good for eating alone';
+  const ratings = [r.score?'Naver ★ '+r.score.toFixed(1):null, r.kscore?'Kakao ★ '+r.kscore.toFixed(1)+(r.kcount?' ('+r.kcount.toLocaleString('en')+')':''):null, r.gscore?'Google ★ '+Number(r.gscore).toFixed(1)+(r.gcount?' ('+Number(r.gcount).toLocaleString('en')+')':''):null].filter(Boolean).join(' · ');
+  const dist = (here && r._d!==undefined && r._d<50) ? '<span class="dist">'+(r._d<1? Math.round(r._d*1000)+' m' : r._d.toFixed(1)+' km')+'</span> · ' : '';
+  const st = openState(r.hrs);
+  const stn = r.stn && r.stn.n ? '<div class="stn">🚇 '+esc(stationEn(r.stn.n))+(r.stn.exit?' · Exit '+esc(r.stn.exit):'')+(r.stn.min?' · '+esc(String(r.stn.min))+' min walk':'')+(r.stn.lines&&r.stn.lines.length?' <small>'+r.stn.lines.map(function(l){ return esc(lineEn(l)); }).join(', ')+'</small>':'')+'</div>' : '';
+  const closedDays = closedDaysOf(r.hrs);
+  const fx = r.fx || {};
+  // 결정용 칩 (CTA에 직접 영향)
+  let dec = '<span class="kc solo" title="Naver visitors who voted: '+solo+'">'+emo('Solo-friendly')+'Solo-friendly <small>· '+r.votes.toLocaleString('en')+' votes</small></span>';
+  if(r.fav) dec += '<span class="kc fav" title="30%+ of this place\'s Naver keyword votes are for eating alone — a true solo spot">'+emo('Solo favorite')+'Solo favorite</span>';
+  if(st){ dec += st.open ? '<span class="kc open">'+emo('Open now')+'Open now <small>until '+st.until+'</small></span>' : '<span class="kc closed">'+emo('Closed now')+'Closed now'+(st.next?' <small>opens '+st.next+'</small>':'')+'</span>'; }
+  if(closedDays) dec += '<span class="kc warn" title="No opening hours listed for these days">🚫 Closed '+closedDays+'</span>';
+  if(r.pmin) dec += '<span class="kc">💰 '+(r.pmin===r.pmax?won(r.pmin):won(r.pmin)+'–'+won(r.pmax))+'</span>';
+  if(fx.enm) dec += '<span class="kc fx" title="Mentioned in Google reviews written in English">'+emo('English menu')+'English menu <small>reviews</small></span>';
+  if(fx.wait) dec += '<span class="kc warn" title="Several English reviews mention waiting or a queue">'+emo('Expect a wait')+'Expect a wait <small>reviews</small></span>';
+  else if(fx.nowait) dec += '<span class="kc fx" title="English reviews mention no wait">'+emo('Usually no wait')+'Usually no wait <small>reviews</small></span>';
+  if(r.resv) dec += '<span class="kc fx" title="Google lists this place as reservable">'+emo('Reservations')+'Reservations</span>';
+  if(fx.halal) dec += '<span class="kc fx" title="Halal: mentioned in reviews or a kebab / Turkish / Middle Eastern place — confirm at the restaurant">'+emo('Halal')+'Halal <small>'+(fx.halal>1?'reviews':'category')+'</small></span>';
+  if(fx.veg) dec += '<span class="kc fx" title="Vegetarian options: Google flag or mentioned in reviews">'+emo('Vegetarian options')+'Vegetarian options</span>';
+  // 상세 (More)
+  const others = [];
+  if(fx.kiosk) others.push('<span class="kc fx">'+emo('Kiosk')+'Kiosk <small>reviews</small></span>');
+  if(fx.eng) others.push('<span class="kc fx">'+emo('English-speaking staff')+'English-speaking staff <small>reviews</small></span>');
+  if(fx.ksolo) others.push('<span class="kc fx" title="Kakao Map also tags this place as 혼밥 (solo dining)">🏷️ Solo tag on Kakao</span>');
+  if(fx.pics) others.push('<span class="kc fx">'+emo('Menu with pictures')+'Menu with pictures <small>reviews</small></span>');
+  const kcs = (r.sayc && r.sayc.length) ? r.sayc.map(function(s){ return '<span class="kc">'+emo(s[0])+esc(s[0])+' <small>'+Number(s[1]).toLocaleString('en')+'</small></span>'; }).join('') : '';
+  const menu = (r.menu && r.menu.length) ? '<div class="menu"><ul>'+r.menu.map(function(m){ return '<li>'+(m[2]?'<span class="en">'+esc(m[2])+(m[1]?' <span class="pr">'+won(m[1])+'</span>':'')+'</span>':'')+'<span class="pr">'+esc(m[0])+(!m[2]&&m[1]?' '+won(m[1]):'')+'</span></li>'; }).join('')+'</ul></div>' : '';
+  const hrs = r.hrs ? '<div class="hrs">🕒 Today: '+todayHours(r.hrs)+' (Seoul time'+(r.hsrc==='kakao'?', via Kakao Map':'')+')</div>' : '';
+  const busy = busyChart(r.busy);
+  const more = (kcs || menu || hrs || others.length) ? '<details class="moreinfo"><summary>More: menu, what Koreans say, hours</summary>'+(others.length?'<div class="kcs">'+others.join('')+'</div>':'')+(kcs?'<div class="kcs">'+kcs+'</div>':'')+menu+hrs+busy+(ratings?'<div class="hrs">'+ratings+'</div>':'')+'</details>' : '';
+  return '<div class="card">'
+    + '<div class="en">'+esc(r.en)+'</div>'
+    + '<div class="ko" lang="ko">'+esc(r.ko)+'</div>'
+    + '<div class="meta">'+dist+esc(r.area)+' · '+esc(r.cat)+(r.score?' · Naver ★ '+r.score.toFixed(1):(r.kscore?' · Kakao ★ '+r.kscore.toFixed(1):''))+'</div>'
+    + stn
+    + '<div class="decide">'+dec+'</div>'
+    + '<div class="actions">'
+    + '<button class="copy" data-ko="'+esc(q)+'">Copy Korean name</button>'
+    + '<a class="lnk" target="_blank" rel="noopener" href="https://map.naver.com/p/search/'+enc+'">Naver Map<span>↗</span></a>'
+    + '<a class="lnk" target="_blank" rel="noopener" href="https://map.kakao.com/?q='+enc+'">Kakao<span>↗</span></a>'
+    + (r.id ? '<a class="lnk" target="_blank" rel="noopener" href="https://map.naver.com/p/entry/place/'+esc(String(r.id))+'" title="Opens in Naver Map — with the app in English, reviews are translated">Reviews<span>↗</span></a>' : '')
+    + '</div>' + more + '</div>';
+}
+const STN_EN = {"홍대입구":"Hongik Univ.","이대":"Ewha Womans Univ.","건대입구":"Konkuk Univ.","시청":"City Hall","서울역":"Seoul Station","교대":"Seoul Nat’l Univ. of Education","동대문역사문화공원":"Dongdaemun History & Culture Park",
+ "총신대입구(이수)":"Chongshin Univ. (Isu)","이수":"Isu","을지로입구":"Euljiro 1-ga","을지로3가":"Euljiro 3-ga","을지로4가":"Euljiro 4-ga","종로3가":"Jongno 3-ga","종로5가":"Jongno 5-ga","명동":"Myeong-dong","한양대":"Hanyang Univ.","경복궁":"Gyeongbokgung","고속터미널":"Express Bus Terminal",
+ "압구정로데오":"Apgujeong Rodeo","잠실새내":"Jamsil Saenae","마곡나루":"Magongnaru","목동":"Mok-dong","서울숲":"Seoul Forest","신촌":"Sinchon","합정":"Hapjeong","망원":"Mangwon","상수":"Sangsu","성수":"Seongsu","뚝섬":"Ttukseom","선릉":"Seolleung","강남":"Gangnam","신논현":"Sinnonhyeon","역삼":"Yeoksam","삼성":"Samseong","봉은사":"Bongeunsa","청담":"Cheongdam","신사":"Sinsa","압구정":"Apgujeong",
+ "광화문":"Gwanghwamun","종각":"Jonggak","안국":"Anguk","혜화":"Hyehwa","충무로":"Chungmuro","회현":"Hoehyeon","동대문":"Dongdaemun","신당":"Sindang","약수":"Yaksu","이태원":"Itaewon","녹사평":"Noksapyeong","한강진":"Hangangjin","삼각지":"Samgakji","신용산":"Sinyongsan","용산":"Yongsan","숙대입구":"Sookmyung Women’s Univ.",
+ "잠실":"Jamsil","석촌":"Seokchon","송파나루":"Songpanaru","노량진":"Noryangjin","신림":"Sillim","서울대입구":"Seoul Nat’l Univ.","사당":"Sadang","방배":"Bangbae","영등포":"Yeongdeungpo","영등포구청":"Yeongdeungpo-gu Office","문래":"Mullae","여의도":"Yeouido","여의나루":"Yeouinaru","오목교":"Omokgyo","발산":"Balsan","마곡":"Magok","왕십리":"Wangsimni","상왕십리":"Sangwangsimni","대치":"Daechi","한티":"Hanti","도곡":"Dogok","강남구청":"Gangnam-gu Office","학동":"Hakdong","논현":"Nonhyeon","어린이대공원":"Children’s Grand Park","성신여대입구":"Sungshin Women’s Univ.","동묘앞":"Dongmyo","경의중앙선 서강대":"Sogang Univ.","서강대":"Sogang Univ.","가좌":"Gajwa","신촌(경의중앙선)":"Sinchon (Gyeongui)","공덕":"Gongdeok","마포":"Mapo","효창공원앞":"Hyochang Park","시청역":"City Hall"};
+function stationEn(ko){ const k = String(ko).replace(/역$/,''); return (STN_EN[k] || STN_EN[ko] || k) + ' Stn.'; }
+function lineEn(l){ l = String(l); if(/^\d+$/.test(l)) return 'Line '+l; const M = {"K":"Gyeongui–Jungang","경의중앙":"Gyeongui–Jungang","B":"Bundang","분당":"Bundang","SB":"Suin–Bundang","수인분당":"Suin–Bundang","S":"Sinbundang","신분당":"Sinbundang","A":"Airport Railway","공항철도":"Airport Railway","공항":"Airport Railway","G":"Gyeongchun","경춘":"Gyeongchun","U":"Ui-Sinseol","우이신설":"Ui-Sinseol","E":"Everline","에버라인":"Everline","SL":"Seohae","서해":"Seohae","GJ":"Gyeonggang","경강":"Gyeonggang","김포골드":"Gimpo Gold","신림":"Sillim Line","서울경전철신림":"Sillim Line","의정부":"Uijeongbu","인천1":"Incheon 1","인천2":"Incheon 2","GTX-A":"GTX-A"}; if(M[l]) return M[l]; const m = l.match(/^(\d+)호선$/); return m ? 'Line '+m[1] : l; }
+function closedDaysOf(periods){
+  if(!periods || !periods.length) return '';
+  const open = {}; periods.forEach(function(p){ open[p[0]] = 1; });
+  const names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const closed = names.filter(function(_, i){ return !open[i]; });
+  if(!closed.length || closed.length > 3) return '';
+  return closed.join(' & ');
+}
+function busyChart(b){
+  if(!b || b.length!==7) return '';
+  const now = seoulNow(); now.hour = Math.floor(now.min/60); const d = b[now.day]; if(!d || !/[1-9]/.test(d)) return '';
+  const names = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  let bars = '';
+  for(let h=0; h<24; h++){ const c = d[h]; const v = c==='-' ? 0 : +c; bars += '<i class="'+(h===now.hour?'now':(v?'on':''))+'" style="height:'+(v? (10+v*10) : 4)+'%" title="'+h+':00 '+(c==='-'?'closed':'busy '+v+'/9')+'"></i>'; }
+  const peak = d.indexOf(String(Math.max.apply(null, d.split('').filter(function(c){ return c!=='-'; }).map(Number))));
+  return '<div class="busy"><div class="lb"><span>📊 Busy times · '+names[now.day]+'</span><span>peak around '+peak+':00 · Kakao Map visitors</span></div><div class="bars">'+bars+'</div><div class="ax"><span>0</span><span>6</span><span>12</span><span>18</span><span>23</span></div></div>';
+}
+function emptyState(e){
+  const sugs = e.words.length ? suggestions(e.words[e.words.length-1]) : [];
+  let html = '<div class="empty">No matches' + (query ? ' for “'+esc(query)+'”' : '');
+  if(e.area||e.food||diet.halal||diet.veg||here) html += ' with the current filters';
+  html += '.';
+  if(sugs.length){ html += '<div>Did you mean:</div><div class="sugs">' + sugs.map(function(s){ return '<button class="sug" data-kind="'+s.kind+'" data-val="'+esc(s.val)+'">'+esc(s.label)+' <span>'+s.kind+'</span></button>'; }).join('') + '</div>'; }
+  else html += '<div style="margin-top:8px">Try an area (“Hongdae”), a dish (“ramen”), or a Korean name.</div>';
+  return html + '</div>';
+}
+function token(label, onRemove){ const t=document.createElement('span'); t.className='tok'; t.innerHTML=esc(label)+' <button aria-label="Remove '+esc(label)+'">✕</button>'; t.querySelector('button').addEventListener('click', onRemove); return t; }
+function sugChip(s){ const b=document.createElement('button'); b.className='sug'; b.innerHTML=esc(s.label)+' <span>'+s.kind+'</span>'; b.addEventListener('click', function(){ applySug(s.kind, s.val); }); return b; }
+function applySug(kind, val){ const p = parseQuery(query); if(p.area && !area) area=p.area; if(p.food && !food) food=p.food; const words = p.words.slice(0,-1); query = words.join(' '); qEl.value = query; if(kind==='area') area = val; else food = val; shown = PAGE; goResults(); render(); }
+function stripFromQuery(kind){ let s = norm(query); const dict = kind==='area' ? AREA_ALIAS : FOOD_ALIAS;
+  s = ' '+s+' ';
+  Object.keys(dict).sort(function(a,b){ return b.length-a.length; }).forEach(function(k){ const pad=' '+k+' '; if(s.indexOf(pad)>=0) s = s.replace(pad,' '); });
+  query = s.replace(/\s+/g,' ').trim(); qEl.value = query; }
+
+/* ---------- 시트 ---------- */
+const scrim=$('scrim'); let openSheet=null;
+function buildAreaGrid(){
+  const g=$('areaGrid'); g.innerHTML='';
+  const pool = DATA.filter(function(r){ return r.t===type; });
+  const all=opt('All Seoul', pool.length, area===null && !here, function(){ area=null; here=null; closeSheet(); render(); }); all.classList.add('wide'); g.appendChild(all);
+  const near=opt('📍 Near me', '', !!here, nearMe); near.classList.add('wide','near'); g.appendChild(near);
+  Object.keys(REGION).forEach(function(reg){
+    const present = REGION[reg].filter(function(a){ return AREAS.indexOf(a)>=0; });
+    if(!present.length) return;
+    const h=document.createElement('h3'); h.textContent=reg; h.style.gridColumn='1 / -1'; g.appendChild(h);
+    present.forEach(function(a){ g.appendChild(opt(a, pool.filter(function(r){ return r.area===a; }).length, area===a, function(){ area=a; here=null; closeSheet(); render(); })); });
+  });
+  AREAS.filter(function(a){ return !Object.keys(REGION).some(function(r){ return REGION[r].indexOf(a)>=0; }); }).forEach(function(a){
+    g.appendChild(opt(a, pool.filter(function(r){ return r.area===a; }).length, area===a, function(){ area=a; here=null; closeSheet(); render(); }));
+  });
+}
+function buildFoodGrid(){
+  const g=$('foodGrid'); g.innerHTML='';
+  const pool = DATA.filter(function(r){ return r.t===type; });
+  const all=opt('Any', pool.length, food===null, function(){ food=null; closeSheet(); render(); }); all.classList.add('wide'); g.appendChild(all);
+  FOODS.forEach(function(f){ const n = pool.filter(function(r){ return (r.cat+' '+r.en).toLowerCase().indexOf(f[1].toLowerCase())>=0; }).length; if(!n) return;
+    g.appendChild(opt(f[0], n, food===f[1], function(){ food=f[1]; closeSheet(); render(); })); });
+}
+function opt(label, n, pressed, onClick){ const b=document.createElement('button'); b.className='opt'; b.setAttribute('aria-pressed', String(pressed)); b.innerHTML = esc(label) + (n!==''? ' <small>'+n+'</small>':''); b.addEventListener('click', onClick); return b; }
+let sheetOpener=null;
+function show(id){ const s=$(id); s.hidden=false; openSheet=s; sheetOpener=document.activeElement; try{ document.querySelector('.wrap').inert=true; }catch(e){} document.body.style.overflow='hidden'; setTimeout(function(){ s.classList.add('open'); scrim.classList.add('open'); s.querySelector('.x').focus(); }, 15); }
+function closeSheet(){ if(!openSheet) return; const s=openSheet; s.classList.remove('open'); scrim.classList.remove('open'); document.body.style.overflow=''; setTimeout(function(){ s.hidden=true; },220); openSheet=null; try{ document.querySelector('.wrap').inert=false; }catch(e){} if(sheetOpener && sheetOpener.focus){ try{ sheetOpener.focus({preventScroll:true}); }catch(e){} } }
+$('pickArea').addEventListener('click', function(){ buildAreaGrid(); show('sheetArea'); });
+$('pickFood').addEventListener('click', function(){ buildFoodGrid(); show('sheetFood'); });
+$('xArea').addEventListener('click', closeSheet); $('xFood').addEventListener('click', closeSheet); scrim.addEventListener('click', closeSheet);
+document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeSheet(); });
+function nearMe(){
+  if(!navigator.geolocation){ toast('Location not available here — pick an area'); return; }
+  toast('Finding places near you…');
+  navigator.geolocation.getCurrentPosition(function(pos){
+    const la=pos.coords.latitude, lo=pos.coords.longitude; let best=null, bd=1e9;
+    AREAS.forEach(function(a){ const g=GEO[a]; if(!g) return; const d=Math.hypot((g[0]-la)*111, (g[1]-lo)*88); if(d<bd){ bd=d; best=a; } });
+    if(!best || bd>25){ toast('You seem to be outside Seoul — pick an area'); return; }
+    closeSheet(); goResults();
+    if(DATA.some(function(r){ return r.lat; })){ here=[la,lo]; area=null; sortBy='near'; render(); toast('Sorted by distance from you'); }
+    else { area=best; render(); toast('Nearest area: '+best+' (~'+bd.toFixed(1)+' km)'); }
+  }, function(){ toast('Location permission denied — pick an area instead'); }, {timeout:8000, maximumAge:60000});
+}
+$('nearHome').addEventListener('click', nearMe);
+
+/* ---------- 컨트롤 ---------- */
+/* ---------- 자동완성 (홈에서만) ---------- */
+let acItems = [], acIdx = -1;
+function acHide(){ acEl.hidden = true; acEl.innerHTML=''; acItems=[]; acIdx=-1; qEl.setAttribute('aria-expanded','false'); qEl.removeAttribute('aria-activedescendant'); }
+function acBuild(q){
+  const s = norm(q); if(s.length<1) return [];
+  const out = []; const seen = {};
+  function add(o){ const id=o.kind+'|'+o.val; if(seen[id]) return; seen[id]=1; out.push(o); }
+  // 동네 · 음식 (별칭 사전, 접두 우선)
+  function wpre(k){ return k.indexOf(s)===0 || k.split(/[\s-]+/).some(function(w){ return w.indexOf(s)===0; }); }
+  Object.keys(AREA_ALIAS).forEach(function(k){ if(wpre(k)) add({kind:'area', val:AREA_ALIAS[k], label:AREA_ALIAS[k]}); });
+  Object.keys(FOOD_ALIAS).forEach(function(k){ if(wpre(k)) add({kind:'food', val:FOOD_ALIAS[k], label:FOOD_LABEL[FOOD_ALIAS[k]]||FOOD_ALIAS[k]}); });
+  if(s.length>=5 && !out.length){   // 접두 매칭이 하나도 없을 때만 오타 보정
+    Object.keys(AREA_ALIAS).forEach(function(k){ if(lev(k,s)<=2) add({kind:'area', val:AREA_ALIAS[k], label:AREA_ALIAS[k]}); });
+    Object.keys(FOOD_ALIAS).forEach(function(k){ if(lev(k,s)<=1) add({kind:'food', val:FOOD_ALIAS[k], label:FOOD_LABEL[FOOD_ALIAS[k]]||FOOD_ALIAS[k]}); });
+  }
+  const head = out.slice(0,4);
+  // 가게명 (영문·한글, 접두 → 포함)
+  const pool = DATA.filter(function(r){ return r.t===type; });
+  const pre = [], inc = [];
+  pool.forEach(function(r){ const en=r.en.toLowerCase(), ko=r.ko; if(en.indexOf(s)===0 || ko.indexOf(q.trim())===0) pre.push(r); else if(en.indexOf(s)>=0 || ko.indexOf(q.trim())>=0 || (r.cat||'').toLowerCase().indexOf(s)>=0) inc.push(r); });
+  const places = pre.concat(inc).slice(0, head.length ? 5 : 7).map(function(r){ return {kind:'place', val:r.en, label:r.en, ko:r.ko, id:r.id, sub:r.area+' · '+r.cat}; });
+  return head.concat(places);
+}
+function acShow(){
+  if(!document.body.classList.contains('home')){ acHide(); return; }
+  const q = qEl.value; acItems = acBuild(q); acIdx = -1;
+  if(!acItems.length){ acHide(); return; }
+  acEl.innerHTML = '<div role="listbox" id="aclist">' + acItems.map(function(o,i){
+    const ic = o.kind==='area' ? '📍' : o.kind==='food' ? (TILE_EMO[o.val]||'🍽️') : '🍽️';
+    const main = o.kind==='place' ? esc(o.label)+' <span class="ko" lang="ko">'+esc(o.ko)+'</span>' : esc(o.label);
+    const k = o.kind==='area' ? 'area' : o.kind==='food' ? 'food' : esc(o.sub);
+    return '<button type="button" role="option" id="ac-'+i+'" aria-selected="false" data-i="'+i+'"><span class="ic">'+ic+'</span><span>'+main+'</span><span class="k">'+k+'</span></button>';
+  }).join('') + '</div><div class="hint">Press Search / Enter to see everything for “'+esc(q.trim())+'”</div>';
+  acEl.hidden = false; qEl.setAttribute('aria-expanded','true');
+  acEl.querySelectorAll('button').forEach(function(b){ b.addEventListener('mousedown', function(e){ e.preventDefault(); acPick(+b.getAttribute('data-i')); }); });
+}
+function acPick(i){
+  const o = acItems[i]; if(!o) return;
+  acHide(); shown=PAGE;
+  if(o.kind==='area'){ area=o.val; query=''; qEl.value=''; }
+  else if(o.kind==='food'){ food=o.val; query=''; qEl.value=''; }
+  else { query=o.val; qEl.value=o.val; pickId=o.id; pickQ=o.val; area=null; food=null; }
+  browsing=true; goResults(); render(); qEl.blur();
+}
+function acMove(d){ if(acEl.hidden) return; acIdx = (acIdx + d + acItems.length + 1) % (acItems.length + 1); if(acIdx===acItems.length) acIdx=-1; acEl.querySelectorAll('button').forEach(function(b,i){ b.classList.toggle('on', i===acIdx); b.setAttribute('aria-selected', String(i===acIdx)); }); if(acIdx>=0) qEl.setAttribute('aria-activedescendant','ac-'+acIdx); else qEl.removeAttribute('aria-activedescendant'); }
+let deb; qEl.addEventListener('input', function(){ clearTimeout(deb); clrBtn.hidden = !qEl.value;
+  if(document.body.classList.contains('home')){ deb=setTimeout(acShow, 80); return; }
+  deb=setTimeout(function(){ query=qEl.value.trim(); shown=PAGE; if(query){ goResults(); render(); } else if(!browsing && !area && !food && !here){ goHome(); } else render(); }, 120); });
+qEl.addEventListener('keydown', function(e){
+  if(e.key==='ArrowDown'){ if(!acEl.hidden){ e.preventDefault(); acMove(1); } return; }
+  if(e.key==='ArrowUp'){ if(!acEl.hidden){ e.preventDefault(); acMove(-1); } return; }
+  if(e.key==='Escape'){ acHide(); return; }
+  if(e.key==='Enter'){ e.preventDefault(); if(!acEl.hidden && acIdx>=0){ acPick(acIdx); return; } acHide(); query=qEl.value.trim(); shown=PAGE; goResults(); render(); qEl.blur(); }
+});
+qEl.addEventListener('blur', function(){ setTimeout(acHide, 150); });
+qEl.addEventListener('focus', function(){ if(document.body.classList.contains('home') && qEl.value.trim()) acShow(); });
+clrBtn.addEventListener('click', function(){ qEl.value=''; query=''; shown=PAGE; if(!browsing && !area && !food && !here){ goHome(); } else { render(); qEl.focus(); } });
+moreEl.addEventListener('click', function(){
+  const prev = shown; shown += PAGE; render();
+  const first = listEl.children[prev];
+  if(first){ first.scrollIntoView({block:'start'}); const ctl = document.querySelector('.controls'); const off = (ctl && getComputedStyle(ctl).position==='sticky') ? ctl.getBoundingClientRect().height + 8 : 8; window.scrollBy(0, -off); first.classList.add('flash'); setTimeout(function(){ first.classList.remove('flash'); }, 1200); }
+});
+document.querySelectorAll('a.brand').forEach(function(a){ a.addEventListener('click', function(ev){ ev.preventDefault(); goHome(); }); });
+[["hongdae station","hongdae station"],["ramen near gangnam","ramen near gangnam"],["itaewon","itaewon"],["gukbap","gukbap"]].forEach(function(x){ const b=document.createElement('button'); b.textContent=x[0]; b.addEventListener('click', function(){ qEl.value=x[1]; query=x[1]; shown=PAGE; goResults(); render(); }); $('examples').appendChild(b); });
+
+/* ---------- 상태 공유(URL 해시) ---------- */
+function updateHash(clear){ const p=[]; if(!clear){ if(area) p.push('area='+encodeURIComponent(area)); if(food) p.push('food='+encodeURIComponent(food)); if(type==='c' && (browsing||area||food||query)) p.push('type=c'); if(query) p.push('q='+encodeURIComponent(query)); }
+  const h = p.length ? '#/all?'+p.join('&') : (clear ? '' : (browsing ? '#/all' : '')); try{ if(location.hash!==h) history.replaceState(null,'',location.pathname+location.search+h); }catch(e){} }
+(function readHash(){ try{ const h=location.hash.replace(/^#\/?/,''); const qs = h.split('?')[1] || ''; if(h.indexOf('all')===0) browsing=true;
+  qs.split('&').filter(Boolean).forEach(function(kv){ const i=kv.indexOf('='); const k=kv.slice(0,i), v=decodeURIComponent(kv.slice(i+1));
+  if(k==='area' && AREAS.indexOf(v)>=0) area=v; if(k==='food') food=v; if(k==='type' && hasCafes && v==='c') type='c'; if(k==='q'){ query=v; qEl.value=v; } });
+  renderToggles(); renderDiet(); }catch(e){} })();
+
+/* ---------- 복사 ---------- */
+let toastTimer;
+function toast(msg){ toastEl.textContent=msg; toastEl.classList.add('show'); clearTimeout(toastTimer); toastTimer=setTimeout(function(){ toastEl.classList.remove('show'); },2200); }
+function copyKo(text){ const done=function(){ toast('Copied “'+text+'” — paste it into Naver Map'); };
+  try{ if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(done).catch(function(){ fallback(text,done); }); } else fallback(text,done); } catch(e){ fallback(text,done); } }
+function fallback(text,done){ try{ const ta=document.createElement('textarea'); ta.value=text; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); } catch(e){ toast('Copy failed — long-press the Korean name instead'); } }
+
+route();
+if(document.body.classList.contains('home') && !('ontouchstart' in window)) setTimeout(function(){ try{ qEl.focus({preventScroll:true}); }catch(e){} }, 50);
+</script>
+</body>
+</html>
